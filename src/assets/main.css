@@ -1,0 +1,18 @@
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+}
+
+* {
+  font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
+}
+
