@@ -1,8 +1,87 @@
 <script setup lang="ts">
+import type { Operation } from '@/models/operation';
 import { ref } from 'vue';
 
 
 const numInput = ref('');
+
+const resultatJuste = ref(false);
+
+const resultatFaux = ref(false);
+
+const moyenne = ref();
+
+const presicion = ref();
+
+
+const operation = ref<Operation>({ a: 0, b: 0, result: 0 });
+
+function sendResponse() {
+  fetch('http://localhost:3000/api/response',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        result: resultatJuste.value,
+        time: compteur.value
+      })
+    })
+}
+
+function actualiseScore() {
+  fetch('http://localhost:3000/api/score',
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    }
+  )
+    .then(function (response) {
+      if (response.ok) { return response.json(); }
+      else { throw ("Err " + response.status); }
+    })
+    .then(function (data) {
+      console.log(data);
+
+      moyenne.value = data.mean;
+      presicion.value = data.accuracy;
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+}
+
+function verifResult() {
+  console.log('test');
+
+
+
+  if (parseInt(numInput.value) === operation.value.result) {
+    resultatJuste.value = true;
+  } else {
+    resultatFaux.value = true;
+  }
+
+
+
+  setTimeout(() => {
+    sendResponse();
+    actualiseScore();
+
+    resultatJuste.value = false;
+    resultatFaux.value = false;
+
+
+
+
+    compteur.value = 0;
+    numInput.value = "";
+    fetchOperation();
+  }, 200)
+}
 
 function listenNumPad(event: Event): void {
 
@@ -14,31 +93,63 @@ function listenNumPad(event: Event): void {
 
   const stringEvent = target.textContent ?? '';
 
-  console.log(stringEvent)
 
   if (stringEvent === "←") {
     console.log('test')
     numInput.value = numInput.value.slice(0, -1);
     return;
   }
-
-
-
-
-
   numInput.value = numInput.value + stringEvent;
 
-
+  if (numInput.value.length === operation.value.result.toString().length) {
+    verifResult();
+  }
 }
+
+function fetchOperation() {
+  fetch('http://localhost:3000/api/generate',
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    }
+  )
+    .then(function (response) {
+      if (response.ok) { return response.json(); }
+      else { throw ("Err " + response.status); }
+    })
+    .then(function (data) {
+      console.log(data);
+
+      operation.value.a = data.a;
+      operation.value.b = data.b;
+      operation.value.result = data.result;
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+fetchOperation();
+
+const compteur = ref(0);
+
+const interval = setInterval(() => {
+  compteur.value += 1;
+}, 1000)
+
 
 </script>
 
 <template>
   <div id="question">
-    <p id="temps">12 sec</p>
-    <p id="operation">2 &times; 5</p>
-    <input id="display" :value="numInput" disabled>
-    <p id="resultat">MOY: 12 sec , Précision:80%</p>
+    <p id="temps">{{ compteur }} sec</p>
+    <p id="operation">{{ operation.a }} &times; {{ operation.b }}</p>
+    <input id="display" :value="numInput" disabled :class="{ juste: resultatJuste, faux: resultatFaux }">
+    <p id="resultat">Moyenne: {{ parseFloat(moyenne).toFixed(2) }} sec , Précision:{{ parseFloat(presicion).toFixed(0)
+      }}%
+    </p>
     <div id="numPad" @click="listenNumPad">
       <button type="button">7</button>
       <button type="button">8</button>
@@ -97,6 +208,14 @@ function listenNumPad(event: Event): void {
 
 }
 
+
+.juste {
+  color: green !important;
+}
+
+.faux {
+  color: red !important;
+}
 
 
 button:nth-last-child(2) {

@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import headerTemplate from "@/components/headerTemplate.vue";
 import NumPad from "@/components/questionPad.vue";
+import StartMenu from "./components/startMenu.vue";
+import { ref } from "vue";
+
+const start = ref(true);
+
+function listenStart(): void {
+  start.value = false;
+}
 
 </script>
 
@@ -10,7 +18,8 @@ import NumPad from "@/components/questionPad.vue";
   </header>
 
   <main>
-    <NumPad />
+    <StartMenu v-if="start" @start="listenStart" />
+    <NumPad v-else />
   </main>
 </template>
 
