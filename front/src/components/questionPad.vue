@@ -192,7 +192,6 @@ function listenStop(event: Event): void {
 
 }
 
-
 .juste {
   color: green !important;
 }
@@ -201,36 +200,21 @@ function listenStop(event: Event): void {
   color: red !important;
 }
 
-
 button:nth-last-child(2) {
   grid-column: span 2;
 }
-
-
-
 
 #operation {
   margin-top: 4rem;
   margin-bottom: 0rem;
 }
 
-
-
-
 #display {
   font-size: 3rem;
   text-align: center;
-
   margin-bottom: 4rem;
-
-
   width: 10rem;
-
-
-
   border: none;
-
   color: rgb(108, 19, 190);
-  background-color: white;
 }
 </style>

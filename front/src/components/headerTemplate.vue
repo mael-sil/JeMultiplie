@@ -1,60 +1,50 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faMoon, faCalculator } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faCalculator, faSun } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
+import { ref } from "vue";
 
 library.add(faMoon);
 library.add(faCalculator)
+library.add(faSun)
+
+const whiteMode = ref(true);
+
+function listenWhite() {
+  whiteMode.value = false
+  document.body.classList.add('dark')
+
+}
+
+function listenDark() {
+  whiteMode.value = true
+  document.body.classList.remove('dark')
+}
+
 </script>
 
 <template>
-  <div id="headerTemplate">
-    <div id="logo">
-      <font-awesome-icon :icon="['fas', 'calculator']" size="lg" />
-    </div>
 
-    <h1>JeMultiplie</h1>
-
-
-
-    <button><font-awesome-icon :icon="['fas', 'moon']" /></button>
-
+  <div id="logo">
+    <font-awesome-icon :icon="['fas', 'calculator']" size="lg" />
   </div>
+
+  <h1>JeMultiplie</h1>
+
+
+
+  <button v-if="whiteMode" @click="listenWhite"><font-awesome-icon :icon="['fas', 'moon']" /></button>
+  <button v-else @click="listenDark"><font-awesome-icon :icon="['fas', 'sun']" /></button>
+
+
 
 
 </template>
 
 <style scoped>
-h1 {
-  display: inline;
-
-  font-size: 1.4rem;
-  font-weight: normal;
-
-  text-align: center;
-  vertical-align: middle;
-}
-
-
-#headerTemplate {
-  display: flex;
-  flex-direction: row;
-
-  align-items: center;
-  gap: 0.5rem;
-
-  padding: 0rem 1rem;
-
-  background-color: white;
-
-}
-
 #logo {
   display: flex;
   justify-content: center;
-}
-
-#logo {
   color: rgb(146, 90, 197);
 }
 
@@ -67,13 +57,6 @@ button {
   height: 2.5rem;
 
   border-radius: 50%;
-
-  background-color: white;
-
   border: 0.05rem solid lightgrey;
-}
-
-button:hover {
-  border: 0.1rem solid rgb(146, 90, 197);
 }
 </style>

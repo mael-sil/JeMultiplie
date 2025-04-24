@@ -38,9 +38,6 @@ console.log(lastResult.accuracy);
   flex-direction: column;
   align-items: center;
 
-  background-color: white;
-  border-radius: 1rem;
-
   width: 100%;
 }
 
@@ -62,7 +59,6 @@ button {
 }
 
 p {
-  background-color: white;
   margin: 0;
   padding: 0.5rem 1rem;
   border-right: 0.1rem solid lightgrey;

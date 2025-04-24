@@ -1,3 +1,21 @@
+* {
+  font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
+}
+
+header,
+main div {
+  background-color: white;
+}
+
+.dark,
+.dark button,
+.dark input,
+.dark header,
+.dark main div {
+  background-color: black;
+  color: white;
+}
+
 body,
 #app {
   margin: 0;
@@ -10,20 +28,11 @@ body,
   display: flex;
   flex-direction: column;
   background-color: #f8f9fa;
-
   align-items: center;
 }
 
-* {
-  font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
-}
-
-main > div {
-  border-radius: 1rem;
-  background-color: white;
-  box-shadow: 0px 0px 10px lightgrey;
-  padding: 1rem 2rem;
-  margin: 1rem 2rem;
+.dark #app {
+  background-color: rgb(14, 13, 13);
 }
 
 h2 {
@@ -31,9 +40,29 @@ h2 {
   font-weight: normal;
 }
 
+h1 {
+  display: inline;
+
+  font-size: 1.4rem;
+  font-weight: normal;
+
+  text-align: center;
+  vertical-align: middle;
+}
+
+main > div {
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px lightgrey;
+  padding: 1rem 2rem;
+  margin: 1rem 2rem;
+}
+
+button {
+  background: white;
+}
+
 main button {
   text-align: center;
-  background: white;
 
   border-radius: 1rem;
   border: 0.1rem solid lightgrey;
@@ -44,7 +73,7 @@ main button {
 }
 
 button:hover {
-  border: 0.1rem solid rgb(146, 90, 197);
+  border: 0.1rem solid rgb(146, 90, 197) !important;
 }
 
 main {
@@ -57,9 +86,21 @@ main {
   justify-content: center;
 
   width: fit-content;
+  background-color: #ffffff00 !important;
 }
 
 header {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0rem 1rem;
+
   box-shadow: 0px 0px 10px lightgrey;
-  width: 100%;
+  align-self: stretch;
+}
+input {
+  background-color: white;
 }
