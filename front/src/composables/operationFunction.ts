@@ -96,15 +96,17 @@ export function reset(): void {
 }
 
 export function endSaveStorage() {
-  let resultHistory: Result[] = getSave()
+  if (nbrOpTotal > 0) {
+    let resultHistory: Result[] = getSave()
 
-  resultHistory.push({
-    nbrOp: nbrOpTotal,
-    nbrGoodAnswer: nbrOpTrueTotal,
-    totalTime: totalTime,
-    meanTime: totalTime / nbrOpTotal,
-    accuracy: (100 * nbrOpTrueTotal) / nbrOpTotal,
-  })
+    resultHistory.push({
+      nbrOp: nbrOpTotal,
+      nbrGoodAnswer: nbrOpTrueTotal,
+      totalTime: totalTime,
+      meanTime: totalTime / nbrOpTotal,
+      accuracy: (100 * nbrOpTrueTotal) / nbrOpTotal,
+    })
 
-  localStorage.setItem('resultHistory', JSON.stringify(resultHistory))
+    localStorage.setItem('resultHistory', JSON.stringify(resultHistory))
+  }
 }

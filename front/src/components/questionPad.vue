@@ -2,6 +2,7 @@
 import { endSaveStorage, getOperation, reset, saveResult } from '@/composables/operationFunction';
 import type { Operation } from '@/models/operation';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 
 const input = ref('');
@@ -88,15 +89,15 @@ function listenReset(event: Event): void {
 }
 
 
-const emit = defineEmits<{
-  'stop': []
-}>()
+const router = useRouter();
+
 
 function listenStop(event: Event): void {
   clearInterval(interval);
   endSaveStorage();
   reset();
-  emit('stop');
+  console.log('test stop')
+  router.push('/');
 
 }
 
