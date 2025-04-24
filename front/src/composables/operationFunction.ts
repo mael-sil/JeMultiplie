@@ -1,7 +1,8 @@
 import type { Operation } from '@/models/operation'
+import { getSave } from './save'
+import type { Result } from '@/models/result'
 
 const operationsTab: Operation[] = []
-
 
 const weights: number[] = []
 const totalTimePerOp: number[] = []
@@ -13,8 +14,6 @@ let isGenerated = false
 let nbrOpTotal = 0
 let nbrOpTrueTotal = 0
 let totalTime = 0
-
-let nextReview = 0;
 
 function generateOperation(min: number, max: number): void {
   for (let a = min; a <= max; a++) {
@@ -83,4 +82,29 @@ export function saveResult(
   console.log(weights)
 
   return [totalTime / nbrOpTotal, (100 * nbrOpTrueTotal) / nbrOpTotal]
+}
+
+export function reset(): void {
+  weights.fill(20)
+  totalTimePerOp.fill(0)
+  nbrOp.fill(0)
+  nbrOpTrue.fill(0)
+
+  nbrOpTotal = 0
+  nbrOpTrueTotal = 0
+  totalTime = 0
+}
+
+export function endSaveStorage() {
+  let resultHistory: Result[] = getSave()
+
+  resultHistory.push({
+    nbrOp: nbrOpTotal,
+    nbrGoodAnswer: nbrOpTrueTotal,
+    totalTime: totalTime,
+    meanTime: totalTime / nbrOpTotal,
+    accuracy: (100 * nbrOpTrueTotal) / nbrOpTotal,
+  })
+
+  localStorage.setItem('resultHistory', JSON.stringify(resultHistory))
 }

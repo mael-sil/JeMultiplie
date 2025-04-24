@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getOperation, saveResult } from '@/composables/operationFunction';
+import { endSaveStorage, getOperation, reset, saveResult } from '@/composables/operationFunction';
 import type { Operation } from '@/models/operation';
 import { ref } from 'vue';
 
@@ -9,8 +9,9 @@ const input = ref('');
 const isResultTrue = ref(false);
 const isResultFalse = ref(false);
 
-const mean = ref();
-const accuracy = ref();
+const mean = ref<number | null>(null)
+const accuracy = ref<number | null>(null)
+
 
 const operation = ref<Operation>(getOperation(2, 9));
 
@@ -76,17 +77,45 @@ const interval = setInterval(() => {
   compteur.value += 1;
 }, 1000)
 
+function listenReset(event: Event): void {
+  mean.value = null;
+  accuracy.value = null;
+  compteur.value = 0;
+
+  reset();
+  operation.value = getOperation(2, 9);
+
+}
+
+
+const emit = defineEmits<{
+  'stop': []
+}>()
+
+function listenStop(event: Event): void {
+  clearInterval(interval);
+  endSaveStorage();
+  reset();
+  emit('stop');
+
+}
+
 
 </script>
 
 <template>
   <div id="question">
-    <p id="temps">{{ compteur }} sec</p>
+    <div id="topPart">
+      <button @click="listenReset"> reset </button>
+      <p id="temps">{{ compteur }} sec</p>
+      <button @click="listenStop"> stop </button>
+    </div>
+
     <p id="operation" v-if="order">{{ operation.a }} &times; {{ operation.b }}</p>
     <p id="operation" v-else>{{ operation.b }} &times; {{ operation.a }}</p>
     <input id="display" :value="input" disabled :class="{ juste: isResultTrue, faux: isResultFalse }">
-    <p id="resultat">Moyenne: {{ parseFloat(mean).toFixed(2) }} sec , Précision:{{ parseFloat(accuracy).toFixed(0)
-    }}%
+    <p id="resultat" :style="{ visibility: mean === null ? 'hidden' : 'visible' }"> Moyenne: {{
+      mean !== null ? mean.toFixed(2) : '' }} sec , Précision:{{ accuracy !== null ? accuracy.toFixed(0) : '' }}%
     </p>
     <div id="numPad" @click="listenNumPad">
       <button type="button">7</button>
@@ -114,20 +143,36 @@ const interval = setInterval(() => {
 
 <style scoped>
 #temps,
-#resultat {
+#resultat,
+#topPart button {
   margin: 0;
   font-size: 1rem;
   color: darkgrey;
 }
 
+
+#topPart button {
+  padding: 0rem 1rem;
+}
+
+#topPart {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+
+  width: 100%;
+}
+
+#topPart button:first-child {
+  justify-self: start;
+}
+
+#topPart button:last-child {
+  justify-self: end;
+}
+
 #question {
-  border-radius: 1rem;
-  background-color: white;
-  box-shadow: 0px 0px 10px lightgrey;
-  padding: 1rem 2rem;
-  margin: 1rem 2rem;
-
-
   font-size: 3rem;
 
   display: flex;
@@ -161,21 +206,7 @@ button:nth-last-child(2) {
 }
 
 
-button {
-  text-align: center;
-  background: white;
 
-  border-radius: 1rem;
-  border: 0.1rem solid lightgrey;
-
-  padding: 0rem 3rem;
-
-  font-size: 3rem;
-}
-
-button:hover {
-  border: 0.1rem solid rgb(146, 90, 197);
-}
 
 #operation {
   margin-top: 4rem;
