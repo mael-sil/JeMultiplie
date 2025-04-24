@@ -1,5 +1,5 @@
 export interface Operation {
-  a: number;
-  b: number;
-  result: number;
+  a: number
+  b: number
+  result: number
 }
