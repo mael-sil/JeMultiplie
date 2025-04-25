@@ -100,6 +100,7 @@ export function endSaveStorage() {
     let resultHistory: Result[] = getSave()
 
     resultHistory.push({
+      date: new Date(),
       nbrOp: nbrOpTotal,
       nbrGoodAnswer: nbrOpTrueTotal,
       totalTime: totalTime,

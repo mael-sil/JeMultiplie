@@ -24,12 +24,6 @@ function listenStart(event: Event): void {
 
 <style scoped>
 #startMenu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  align-items: center;
-
   width: 100%;
 }
 

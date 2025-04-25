@@ -10,13 +10,20 @@ const { lastResult } = defineProps<Props>();
 
 console.log(lastResult.accuracy);
 
+const emit = defineEmits<{
+  'more': []
+}>()
+
+function listenMore(event: Event): void {
+  emit('more')
+}
 
 </script>
 
 <template>
-  <div>
+  <div id="lastResultTemplate">
     <h2>Dernier résultat</h2>
-    <div id="lastResult">
+    <div id="lastResultTab">
       <p> Questions</p>
       <p> Temps moyen (s)</p>
       <p> Précision (%)</p>
@@ -24,7 +31,7 @@ console.log(lastResult.accuracy);
       <p> {{ lastResult.meanTime.toFixed(2) }} </p>
       <p> {{ lastResult.accuracy.toFixed(0) }}</p>
     </div>
-    <button> Voir plus</button>
+    <button @click="listenMore"> Voir plus</button>
   </div>
 
 
@@ -32,7 +39,11 @@ console.log(lastResult.accuracy);
 
 
 <style scoped>
-#lastResult {
+#lastResultTemplate {
+  width: 100%;
+}
+
+#lastResultTab {
   display: grid;
   grid-template-columns: auto auto auto;
 

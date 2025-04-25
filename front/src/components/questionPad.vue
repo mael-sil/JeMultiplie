@@ -146,7 +146,6 @@ function listenStop(event: Event): void {
 #question {
   gap: 0.5rem;
   font-size: 3rem;
-  width: auto;
 }
 
 #temps,
