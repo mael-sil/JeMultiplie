@@ -143,6 +143,12 @@ function listenStop(event: Event): void {
 
 
 <style scoped>
+#question {
+  gap: 0.5rem;
+  font-size: 3rem;
+  width: auto;
+}
+
 #temps,
 #resultat,
 #topPart button {
@@ -171,17 +177,6 @@ function listenStop(event: Event): void {
 
 #topPart button:last-child {
   justify-self: end;
-}
-
-#question {
-  font-size: 3rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  align-items: center;
-
 }
 
 #numPad {

@@ -14,7 +14,7 @@ console.log(lastResult.accuracy);
 </script>
 
 <template>
-  <div id="resultTemplate">
+  <div>
     <h2>Dernier résultat</h2>
     <div id="lastResult">
       <p> Questions</p>
@@ -22,25 +22,16 @@ console.log(lastResult.accuracy);
       <p> Précision (%)</p>
       <p> {{ lastResult.nbrOp }}</p>
       <p> {{ lastResult.meanTime.toFixed(2) }} </p>
-      <p> {{ lastResult.accuracy }}</p>
+      <p> {{ lastResult.accuracy.toFixed(0) }}</p>
     </div>
     <button> Voir plus</button>
   </div>
-
 
 
 </template>
 
 
 <style scoped>
-#resultTemplate {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 100%;
-}
-
 #lastResult {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -61,8 +52,8 @@ button {
 p {
   margin: 0;
   padding: 0.5rem 1rem;
-  border-right: 0.1rem solid lightgrey;
-  border-bottom: 0.1rem solid lightgrey;
+  border-right: 0.12rem solid lightgrey;
+  border-bottom: 0.12rem solid lightgrey;
   text-align: center;
 }
 
