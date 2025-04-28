@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { endSaveStorage, getOperation, reset, saveResult } from '@/composables/operationFunction';
 import type { Operation } from '@/models/operation';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 
@@ -65,8 +65,11 @@ function listenNumPad(event: Event): void {
   input.value = input.value + stringEvent;
 
   if (input.value.length === operation.value.result.toString().length) {
+    console.log("testNumPad");
     verifResult();
   }
+
+  console.log("listenNumPad")
 }
 
 function listenKeyboard(event: KeyboardEvent) {
@@ -76,14 +79,23 @@ function listenKeyboard(event: KeyboardEvent) {
     input.value += key;
 
     if (input.value.length === operation.value.result.toString().length) {
+      console.log("testKeyboard");
       verifResult();
     }
   } else if (key === 'Backspace') {
     input.value = input.value.slice(0, -1);
   }
+
+  console.log("listenKeyboard")
 }
 
-window.addEventListener('keydown', listenKeyboard);
+onMounted(() => {
+  window.addEventListener('keydown', listenKeyboard);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', listenKeyboard);
+});
 
 
 
@@ -111,6 +123,11 @@ function listenStop(event: Event): void {
   clearInterval(interval);
   endSaveStorage();
   reset();
+
+  mean.value = null;
+  accuracy.value = null;
+  compteur.value = 0;
+
   console.log('test stop')
   router.push('/');
 

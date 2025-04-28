@@ -110,10 +110,10 @@ export function saveResult(
 
     operationResult[indexOp].goodAnswers++
 
-    operationWeights[indexOp] = operationResult[indexOp].meanTime
-
     operationResult[indexOp].meanTime =
       operationResult[indexOp].totalTime / operationResult[indexOp].goodAnswers
+
+    operationWeights[indexOp] = operationResult[indexOp].meanTime
   } else {
     operationWeights[indexOp] += 100
   }
