@@ -59,7 +59,6 @@ function listenNumPad(event: Event): void {
 
 
   if (stringEvent === "←") {
-    console.log('test')
     input.value = input.value.slice(0, -1);
     return;
   }
@@ -69,6 +68,22 @@ function listenNumPad(event: Event): void {
     verifResult();
   }
 }
+
+function listenKeyboard(event: KeyboardEvent) {
+  const key = event.key;
+
+  if (key >= '0' && key <= '9') {
+    input.value += key;
+
+    if (input.value.length === operation.value.result.toString().length) {
+      verifResult();
+    }
+  } else if (key === 'Backspace') {
+    input.value = input.value.slice(0, -1);
+  }
+}
+
+window.addEventListener('keydown', listenKeyboard);
 
 
 
