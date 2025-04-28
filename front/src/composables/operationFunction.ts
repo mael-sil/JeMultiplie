@@ -2,18 +2,29 @@ import type { Operation } from '@/models/operation'
 import { getSave } from './save'
 import type { OperationResult, Result } from '@/models/result'
 
+// List of all generated operations (a * b)
 const operationTab: Operation[] = []
 
+// List of weights for each operation for the random pick
 const operationWeights: number[] = []
 
+// Statistics results for each operation
 const operationResult: OperationResult[] = []
 
+// tell if operations have been generated
 let isGenerated = false
 
+// Session statistics
 let totalAttempts = 0
 let totalCorrects = 0
 let totalTime = 0
 
+/**
+ * Generate the possible multiplication between min and max.
+ *
+ * @param min - minimum value for multiplication
+ * @param max - maximum value for multiplication
+ */
 function generateOperation(min: number, max: number): void {
   for (let a = min; a <= max; a++) {
     for (let b = a; b <= max; b++) {
@@ -37,6 +48,15 @@ function generateOperation(min: number, max: number): void {
   isGenerated = true
 }
 
+/**
+ * Give you a random multiplication between min and max.
+ * The random choice is weighted depending on previous answer
+ *
+ * @param min - minimum value for multiplication
+ * @param max - maximum value for multiplication
+ *
+ * @returns random Operation between min and max
+ */
 export function getOperation(min: number, max: number): Operation {
   if (isGenerated === false) {
     generateOperation(min, max)
@@ -61,6 +81,16 @@ export function getOperation(min: number, max: number): Operation {
   return operationTab[i]
 }
 
+/**
+ * Save the result of a question that was answered
+ * And update the weight for random choice
+ *
+ * @param operation - operation that was answered
+ * @param isResultTrue - result
+ * @param time - time taken to answer
+ *
+ * @returns a tuple with mean time and accuracy
+ */
 export function saveResult(
   operation: Operation,
   isResultTrue: boolean,
@@ -94,6 +124,9 @@ export function saveResult(
   return [totalTime / totalAttempts, (100 * totalCorrects) / totalAttempts]
 }
 
+/**
+ * Reset the result
+ */
 export function reset(): void {
   operationWeights.fill(20)
 
@@ -109,7 +142,10 @@ export function reset(): void {
   totalTime = 0
 }
 
-export function endSaveStorage() {
+/**
+ * Save the result of the session in localstorage
+ */
+export function endSaveStorage(): void {
   if (totalAttempts > 0) {
     let resultHistory: Result[] = getSave()
 

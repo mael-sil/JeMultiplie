@@ -1,5 +1,8 @@
 import type { Result } from '@/models/result'
 
+/**
+ * Function to get the result from localstorage if they exist
+ */
 export function getSave(): Result[] {
   const saved = localStorage.getItem('resultHistory')
 
@@ -9,5 +12,3 @@ export function getSave(): Result[] {
     return []
   }
 }
-
-
