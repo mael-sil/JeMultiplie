@@ -68,22 +68,22 @@ export function saveResult(
 ): [number, number] {
   const indexOp = operationTab.findIndex((op) => op.a === operation.a && op.b === operation.b)
 
-  operationResult[indexOp].totalTime += time
-
   operationResult[indexOp].totalAttempts++
 
   totalAttempts++
-  totalTime += time
-
-  operationResult[indexOp].meanTime =
-    operationResult[indexOp].totalTime / operationResult[indexOp].totalAttempts
 
   if (isResultTrue) {
+    operationResult[indexOp].totalTime += time
+    totalTime += time
+
     totalCorrects++
 
     operationResult[indexOp].goodAnswers++
 
     operationWeights[indexOp] = operationResult[indexOp].meanTime
+
+    operationResult[indexOp].meanTime =
+      operationResult[indexOp].totalTime / operationResult[indexOp].goodAnswers
   } else {
     operationWeights[indexOp] += 100
   }

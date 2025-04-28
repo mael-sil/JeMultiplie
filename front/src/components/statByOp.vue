@@ -24,6 +24,13 @@ const groups = computed(() => {
 
   return g;
 });
+
+const getPercentageColor = (goodAnswers: number, totalAttempts: number) => {
+  const percentage = (goodAnswers / totalAttempts) * 100;
+  if (percentage >= 90) return 'good';
+  if (percentage >= 80) return 'medium';
+  return 'bad';
+};
 console.log(groups)
 
 </script>
@@ -33,8 +40,12 @@ console.log(groups)
   <div v-for="group of groups">
     <div class="operation-result" v-for="elt of group">
       <p>{{ elt.operation.a }} x {{ elt.operation.b }}</p>
+      <p v-if="elt.totalAttempts > 0" :class="getPercentageColor(elt.goodAnswers, elt.totalAttempts)">{{ 100 *
+        elt.goodAnswers / elt.totalAttempts }}%</p>
       <progressBar :time="elt.meanTime" />
       <p v-if="elt.meanTime > 0">{{ elt.meanTime.toFixed(2) }} s</p>
+      <p v-else></p>
+
     </div>
   </div>
 </template>
@@ -45,7 +56,7 @@ console.log(groups)
   width: 100%;
 
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(4, auto);
 
   align-items: center;
   justify-items: start;
@@ -55,5 +66,18 @@ console.log(groups)
 
 p {
   width: 4rem;
+}
+
+
+.good {
+  color: limegreen;
+}
+
+.medium {
+  color: dodgerblue;
+}
+
+.bad {
+  color: orangered;
 }
 </style>

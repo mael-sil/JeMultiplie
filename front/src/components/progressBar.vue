@@ -25,7 +25,7 @@ const color = computed(() => {
     <span :style="{ width: width + '%', backgroundColor: color }"></span>
   </div>
   <span v-else> </span>
-  
+
 
 </template>
 
@@ -42,6 +42,7 @@ const color = computed(() => {
 }
 
 .progress span {
+  width: 6rem;
   height: 100%;
   display: block;
   color: rgb(255, 251, 251);

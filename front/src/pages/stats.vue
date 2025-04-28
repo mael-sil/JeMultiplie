@@ -21,7 +21,7 @@ function listenQuit() {
   router.push("/")
 }
 
-const selected = ref(resultHistory.value[0]);
+const selected = ref(resultHistory.value[resultHistory.value.length - 1]);
 
 const dateSelected = computed(() => {
   if (!selected.value) return '';
@@ -41,7 +41,7 @@ function listenSelected(result: Result) {
   <main>
     <div id="stat">
       <div title="Fermer" @click="listenQuit" id="cross">
-        <font-awesome-icon :icon="['fas', 'xmark']" size="lg" />
+        <font-awesome-icon :icon="['fas', 'xmark']" size="2x" />
       </div>
 
       <div id="resultTab">
@@ -95,12 +95,12 @@ function listenSelected(result: Result) {
 }
 
 #statByOp>div {
-  border-right: 0.12rem solid lightgrey;
+  border-right: 0.12rem solid rgb(146, 90, 197);
 }
 
 #resultTab div,
 #statByOp>div {
-  border-bottom: 0.12rem solid lightgrey;
+  border-bottom: 0.12rem solid rgb(146, 90, 197);
 }
 
 #resultTab p:nth-child(5n),
@@ -109,8 +109,7 @@ function listenSelected(result: Result) {
 }
 
 
-#statByOp>div:nth-last-child(-n+4),
-#resultTab div:last-child {
+#statByOp>div:nth-last-child(-n+4) {
   border-bottom: none;
 }
 
