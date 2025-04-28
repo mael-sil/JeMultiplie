@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { idText } from "typescript";
 import { ref } from "vue";
 
 const whiteMode = ref(true);
