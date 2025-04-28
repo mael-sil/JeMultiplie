@@ -4,11 +4,12 @@ import resultRowTemplate from '@/components/resultRowTemplate.vue';
 import resultTopRow from '@/components/resultTopRow.vue';
 import { getSave } from '@/composables/save';
 import type { Result } from '@/models/result';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { useRouter } from 'vue-router';
 import statByOp from '@/components/statByOp.vue';
+import { dateFormating } from '@/composables/date';
 
 const resultHistory = ref<Result[]>(getSave())
 
@@ -18,6 +19,17 @@ library.add(faXmark);
 
 function listenQuit() {
   router.push("/")
+}
+
+const selected = ref(resultHistory.value[0]);
+
+const dateSelected = computed(() => {
+  if (!selected.value) return '';
+  return dateFormating(new Date(selected.value.date));
+});
+
+function listenSelected(result: Result) {
+  selected.value = result;
 }
 
 </script>
@@ -35,13 +47,16 @@ function listenQuit() {
       <div id="resultTab">
         <h2>Historique</h2>
         <resultTopRow />
-        <resultRowTemplate v-for="elt in [...resultHistory].reverse()" :result="elt" />
+        <resultRowTemplate v-for="elt in [...resultHistory].reverse()" :result="elt" :selected="elt === selected"
+          @is-selected="listenSelected" />
       </div>
 
       <div id="statByOp">
-        <h2>Statistique des opérations</h2>
-        <statByOp />
+        <h2>Temps moyen par operations</h2>
+        <h3>Pour la session du {{ dateSelected }}</h3>
+        <statByOp :result="selected" />
       </div>
+
     </div>
 
   </main>
@@ -56,14 +71,15 @@ function listenQuit() {
   text-align: center;
 }
 
-#statByOp h2 {
+#statByOp h2,
+#statByOp h3 {
   grid-column: span 4;
   text-align: center;
 }
 
 #resultTab {
-  display: grid;
-  grid-template-columns: repeat(5, auto);
+  display: flex;
+  flex-direction: column;
 
   align-items: stretch;
   justify-items: stretch;
@@ -71,21 +87,30 @@ function listenQuit() {
 
 
 #resultTab p,
-#statByOp div {
+#statByOp>div {
   margin: 0;
   padding: 0.5rem 1rem;
-  border-right: 0.12rem solid lightgrey;
-  border-bottom: 0.12rem solid lightgrey;
+
   text-align: center;
 }
 
-#resultTab p:nth-child(5n+1),
-#statByOp div:nth-child(4n+1) {
+#statByOp>div {
+  border-right: 0.12rem solid lightgrey;
+}
+
+#resultTab div,
+#statByOp>div {
+  border-bottom: 0.12rem solid lightgrey;
+}
+
+#resultTab p:nth-child(5n),
+#statByOp>div:nth-child(4n+2) {
   border-right: none;
 }
 
-#resultTab p:nth-last-child(-n+5),
-#statByOp div:nth-last-child(-n+4) {
+
+#statByOp>div:nth-last-child(-n+4),
+#resultTab div:last-child {
   border-bottom: none;
 }
 
@@ -97,8 +122,6 @@ function listenQuit() {
 #statByOp {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-
-
 
   align-items: stretch;
   justify-items: stretch;

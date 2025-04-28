@@ -1,32 +1,38 @@
 import type { Operation } from '@/models/operation'
 import { getSave } from './save'
-import type { Result } from '@/models/result'
+import type { OperationResult, Result } from '@/models/result'
 
-const operationsTab: Operation[] = []
+const operationTab: Operation[] = []
 
-const weights: number[] = []
-const totalTimePerOp: number[] = []
-const nbrOp: number[] = []
-const nbrOpTrue: number[] = []
+const operationWeights: number[] = []
+
+const operationResult: OperationResult[] = []
 
 let isGenerated = false
 
-let nbrOpTotal = 0
-let nbrOpTrueTotal = 0
+let totalAttempts = 0
+let totalCorrects = 0
 let totalTime = 0
 
 function generateOperation(min: number, max: number): void {
   for (let a = min; a <= max; a++) {
     for (let b = a; b <= max; b++) {
-      operationsTab.push({ a, b, result: a * b })
-      nbrOp.push(0)
-      nbrOpTrue.push(0)
-      totalTimePerOp.push(0)
-      weights.push(20)
+      const operation: Operation = { a, b, result: a * b }
+      operationTab.push(operation)
+
+      operationResult.push({
+        operation: operation,
+        totalAttempts: 0,
+        goodAnswers: 0,
+        totalTime: 0,
+        meanTime: 0,
+      })
+
+      operationWeights.push(20)
     }
   }
 
-  console.log(weights)
+  console.log(operationWeights)
 
   isGenerated = true
 }
@@ -38,7 +44,7 @@ export function getOperation(min: number, max: number): Operation {
 
   let i
 
-  const weightsTmp = [...weights]
+  const weightsTmp = [...operationWeights]
 
   for (i = 1; i < weightsTmp.length; i++) {
     weightsTmp[i] += weightsTmp[i - 1]
@@ -46,13 +52,13 @@ export function getOperation(min: number, max: number): Operation {
 
   let random = Math.random() * weightsTmp[weightsTmp.length - 1]
 
-  for (i = 0; i < weights.length; i++) {
+  for (i = 0; i < operationWeights.length; i++) {
     if (weightsTmp[i] > random) {
       break
     }
   }
 
-  return operationsTab[i]
+  return operationTab[i]
 }
 
 export function saveResult(
@@ -60,52 +66,61 @@ export function saveResult(
   isResultTrue: boolean,
   time: number,
 ): [number, number] {
-  const indexOp = operationsTab.findIndex((op) => op.a === operation.a && op.b === operation.b)
+  const indexOp = operationTab.findIndex((op) => op.a === operation.a && op.b === operation.b)
 
-  totalTimePerOp[indexOp] += time
-  nbrOp[indexOp]++
+  operationResult[indexOp].totalTime += time
 
-  nbrOpTotal++
+  operationResult[indexOp].totalAttempts++
+
+  totalAttempts++
   totalTime += time
 
+  operationResult[indexOp].meanTime =
+    operationResult[indexOp].totalTime / operationResult[indexOp].totalAttempts
+
   if (isResultTrue) {
-    nbrOpTrueTotal++
+    totalCorrects++
 
-    nbrOpTrue[indexOp]++
+    operationResult[indexOp].goodAnswers++
 
-    weights[indexOp] = totalTimePerOp[indexOp] / nbrOp[indexOp]
+    operationWeights[indexOp] = operationResult[indexOp].meanTime
   } else {
-    weights[indexOp] += 100
+    operationWeights[indexOp] += 100
   }
 
-  console.log(operationsTab)
-  console.log(weights)
+  console.log(operationTab)
+  console.log(operationWeights)
 
-  return [totalTime / nbrOpTotal, (100 * nbrOpTrueTotal) / nbrOpTotal]
+  return [totalTime / totalAttempts, (100 * totalCorrects) / totalAttempts]
 }
 
 export function reset(): void {
-  weights.fill(20)
-  totalTimePerOp.fill(0)
-  nbrOp.fill(0)
-  nbrOpTrue.fill(0)
+  operationWeights.fill(20)
 
-  nbrOpTotal = 0
-  nbrOpTrueTotal = 0
+  for (const result of operationResult) {
+    result.totalTime = 0
+    result.totalAttempts = 0
+    result.goodAnswers = 0
+    result.meanTime = 0
+  }
+
+  totalAttempts = 0
+  totalCorrects = 0
   totalTime = 0
 }
 
 export function endSaveStorage() {
-  if (nbrOpTotal > 0) {
+  if (totalAttempts > 0) {
     let resultHistory: Result[] = getSave()
 
     resultHistory.push({
       date: new Date(),
-      nbrOp: nbrOpTotal,
-      nbrGoodAnswer: nbrOpTrueTotal,
+      totalAttempts: totalAttempts,
+      operationsResult: operationResult,
+      totalCorrects: totalCorrects,
       totalTime: totalTime,
-      meanTime: totalTime / nbrOpTotal,
-      accuracy: (100 * nbrOpTrueTotal) / nbrOpTotal,
+      meanTime: totalTime / totalAttempts,
+      accuracy: (100 * totalCorrects) / totalAttempts,
     })
 
     localStorage.setItem('resultHistory', JSON.stringify(resultHistory))

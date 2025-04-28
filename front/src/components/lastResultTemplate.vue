@@ -27,7 +27,7 @@ function listenMore(event: Event): void {
       <p> Questions</p>
       <p> Temps moyen (s)</p>
       <p> Précision (%)</p>
-      <p> {{ lastResult.nbrOp }}</p>
+      <p> {{ lastResult.totalAttempts }}</p>
       <p> {{ lastResult.meanTime.toFixed(2) }} </p>
       <p> {{ lastResult.accuracy.toFixed(0) }}</p>
     </div>

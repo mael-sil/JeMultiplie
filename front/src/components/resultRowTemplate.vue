@@ -1,30 +1,48 @@
 <script setup lang="ts">
+import { dateFormating } from '@/composables/date';
 import type { Result } from '@/models/result';
 import { ref } from 'vue';
 
 interface Props {
   result: Result;
+  selected: boolean;
 }
 
-const { result } = defineProps<Props>();
+const { result, selected } = defineProps<Props>();
 
 const date = new Date(result.date);
 
-const day: string = String(date.getDate())
-const month: string = String(date.getMonth())
+const dateString = ref(dateFormating(date))
 
-const dateString = ref(day.padStart(2, '0') + '.' + month.padStart(2, '0') + '.' + date.getFullYear() + ' ' + date.toTimeString().substring(0, 5))
+
+const emit = defineEmits<{
+  'isSelected': [result: Result]
+}>()
+
+
+function listenSelected(event: Event) {
+  emit("isSelected", result)
+}
 </script>
 
 <template>
-
-  <p>{{ dateString }}</p>
-  <p>{{ result.nbrOp }}</p>
-  <p>{{ result.nbrGoodAnswer }}</p>
-  <p>{{ result.accuracy.toFixed(0) }}</p>
-  <p>{{ result.meanTime.toFixed(2) }}</p>
-
+  <div class="resultRow" :class="{ selected: selected }" @click="listenSelected">
+    <p>{{ dateString }}</p>
+    <p>{{ result.totalAttempts }}</p>
+    <p>{{ result.totalCorrects }}</p>
+    <p>{{ result.accuracy.toFixed(0) }}</p>
+    <p>{{ result.meanTime.toFixed(2) }}</p>
+  </div>
 
 </template>
 
-<style scoped></style>
+<style scoped>
+.resultRow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.selected {
+  background-color: rgba(131, 131, 131, 0.315);
+}
+</style>
