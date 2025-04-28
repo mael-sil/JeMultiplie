@@ -5,7 +5,7 @@ export function dateFormating(date: Date): string {
     day.padStart(2, '0') +
     '.' +
     month.padStart(2, '0') +
-    '.' +
+    ' ' +
     date.getFullYear() +
     ' ' +
     date.toTimeString().substring(0, 5)

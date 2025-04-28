@@ -11,6 +11,6 @@
 <style scoped>
 .resultTopRow {
   display: grid;
-  grid-template-columns: 1.6fr repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 }
 </style>

@@ -97,7 +97,7 @@ function listenSelected(result: Result) {
 #resultTab p,
 #statByOp>div {
   margin: 0;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0rem;
 
   text-align: center;
 }

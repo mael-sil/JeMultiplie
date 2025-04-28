@@ -39,7 +39,7 @@ function listenSelected(event: Event) {
 <style scoped>
 .resultRow {
   display: grid;
-  grid-template-columns: 1.6fr repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .selected {
