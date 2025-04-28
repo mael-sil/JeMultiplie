@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faMoon, faCalculator, faSun } from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { idText } from "typescript";
 import { ref } from "vue";
 
-library.add(faMoon);
-library.add(faCalculator)
-library.add(faSun)
-
 const whiteMode = ref(true);
+
+const savedMode = localStorage.getItem("whiteMode");
+
+if (savedMode) {
+  whiteMode.value = (savedMode === "true");
+}
 
 function listenWhite() {
   whiteMode.value = false
   document.body.classList.add('dark')
 
+  localStorage.setItem("whiteMode", "false")
 }
 
 function listenDark() {
   whiteMode.value = true
   document.body.classList.remove('dark')
+  localStorage.setItem("whiteMode", "true")
 }
 
 </script>
