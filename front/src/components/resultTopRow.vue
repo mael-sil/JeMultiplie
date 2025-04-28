@@ -1,9 +1,9 @@
 <template>
-  <div class="resultTopRow selected">
+  <div class="resultTopRow">
     <p> Date</p>
-    <p> Questions</p>
-    <p> Juste</p>
-    <p> Précision (%)</p>
+    <p> Nombre question</p>
+    <p> Bonne réponse</p>
+    <p> % Bonne réponse</p>
     <p> Temps moyen (s)</p>
   </div>
 </template>
@@ -11,8 +11,6 @@
 <style scoped>
 .resultTopRow {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 1.6fr repeat(4, 1fr);
 }
-
-
 </style>

@@ -37,3 +37,10 @@ console.log(resultHistory.value)
       @more="listenMore" />
   </main>
 </template>
+
+<style scoped>
+main>div {
+  margin: 1rem 0rem;
+  padding: 0.5rem 0.2rem;
+}
+</style>

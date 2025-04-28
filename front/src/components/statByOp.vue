@@ -42,6 +42,7 @@ console.log(groups)
       <p>{{ elt.operation.a }} x {{ elt.operation.b }}</p>
       <p v-if="elt.totalAttempts > 0" :class="getPercentageColor(elt.goodAnswers, elt.totalAttempts)">{{ (100 *
         elt.goodAnswers / elt.totalAttempts).toFixed(0) }}%</p>
+      <p v-else></p>
       <progressBar :time="elt.meanTime" />
       <p v-if="elt.meanTime > 0">{{ elt.meanTime.toFixed(2) }} s</p>
       <p v-else></p>

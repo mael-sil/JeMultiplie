@@ -216,6 +216,7 @@ button:nth-last-child(2) {
 #operation {
   margin-top: 4rem;
   margin-bottom: 0rem;
+  font-size: 3rem;
 }
 
 #display {

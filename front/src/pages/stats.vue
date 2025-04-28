@@ -46,9 +46,11 @@ function listenSelected(result: Result) {
 
       <div id="resultTab">
         <h2>Historique</h2>
-        <resultTopRow />
-        <resultRowTemplate v-for="elt in [...resultHistory].reverse()" :result="elt" :selected="elt === selected"
-          @is-selected="listenSelected" />
+        <div id="tab">
+          <resultTopRow />
+          <resultRowTemplate v-for="elt in [...resultHistory].reverse()" :result="elt" :selected="elt === selected"
+            @is-selected="listenSelected" />
+        </div>
       </div>
 
       <div id="statByOp">
@@ -66,6 +68,12 @@ function listenSelected(result: Result) {
 
 
 <style>
+#tab {
+  max-height: calc(5 * 3rem + 4rem);
+  overflow-y: auto;
+  border: 1px solid lightgrey;
+}
+
 #resultTab h2 {
   grid-column: span 5;
   text-align: center;
@@ -94,8 +102,17 @@ function listenSelected(result: Result) {
   text-align: center;
 }
 
+#resultTab p,
 #statByOp>div {
   border-right: 0.12rem solid rgb(146, 90, 197);
+}
+
+#resultTab p:nth-child(5n) {
+  border-right: none;
+}
+
+#resultTab div:last-child {
+  border-bottom: none;
 }
 
 #resultTab div,
@@ -103,14 +120,14 @@ function listenSelected(result: Result) {
   border-bottom: 0.12rem solid rgb(146, 90, 197);
 }
 
-#resultTab p:nth-child(5n),
-#statByOp>div:nth-child(4n+2) {
-  border-right: none;
+#resultTab p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-
-#statByOp>div:nth-last-child(-n+4) {
-  border-bottom: none;
+#resultTab .resultTopRow p {
+  padding: 0.5rem 0rem;
 }
 
 #cross {
@@ -124,5 +141,85 @@ function listenSelected(result: Result) {
 
   align-items: stretch;
   justify-items: stretch;
+}
+
+#stat {
+  margin: 1rem 1rem;
+}
+
+
+@media (min-width: 1450px) {
+  #statByOp>div:nth-child(4n+2) {
+    border-right: none;
+  }
+
+
+  #statByOp>div:nth-last-child(-n+4) {
+    border-bottom: none;
+  }
+}
+
+
+@media (max-width: 1450px) and (min-width: 1100px) {
+  #statByOp {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #statByOp h2,
+  #statByOp h3 {
+    grid-column: span 3;
+  }
+
+  #statByOp>div:nth-child(3n+2) {
+    border-right: none;
+  }
+
+
+  #statByOp>div:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+}
+
+
+@media (max-width: 1100px) and (min-width: 800px) {
+  #statByOp {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #statByOp h2,
+  #statByOp h3 {
+    grid-column: span 2;
+  }
+
+  #statByOp>div:nth-child(2n+2) {
+    border-right: none;
+  }
+
+
+  #statByOp>div:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+}
+
+
+@media (max-width: 800px) {
+  #statByOp {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  #statByOp h2,
+  #statByOp h3 {
+    grid-column: span 1;
+  }
+
+  #statByOp>div:nth-child(n+2) {
+    border-right: none;
+  }
+
+
+  #statByOp>div:nth-last-child(-n+1) {
+    border-bottom: none;
+  }
 }
 </style>
