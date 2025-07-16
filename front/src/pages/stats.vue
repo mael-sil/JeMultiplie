@@ -8,8 +8,8 @@ import { computed, ref } from 'vue';
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { useRouter } from 'vue-router';
-import statByOp from '@/components/statByOp.vue';
 import { dateFormating } from '@/composables/date';
+import opHeatmap from '@/components/OpHeatmap.vue'
 
 const resultHistory = ref<Result[]>(getSave())
 
@@ -54,9 +54,9 @@ function listenSelected(result: Result) {
       </div>
 
       <div id="statByOp">
-        <h2>Temps moyen par operations</h2>
+        <h2>Pourcentage de réussite par operation</h2>
         <h3>Pour la session du {{ dateSelected }}</h3>
-        <statByOp :result="selected" />
+        <opHeatmap :result="selected" />
       </div>
 
     </div>
@@ -102,8 +102,7 @@ function listenSelected(result: Result) {
   text-align: center;
 }
 
-#resultTab p,
-#statByOp>div {
+#resultTab p {
   border-right: 0.12rem solid rgb(146, 90, 197);
 }
 
@@ -115,8 +114,7 @@ function listenSelected(result: Result) {
   border-bottom: none;
 }
 
-#resultTab div,
-#statByOp>div {
+#resultTab div {
   border-bottom: 0.12rem solid rgb(146, 90, 197);
 }
 
@@ -136,90 +134,14 @@ function listenSelected(result: Result) {
 }
 
 #statByOp {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-
-  align-items: stretch;
-  justify-items: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0rem 1rem;
 }
 
 #stat {
   margin: 1rem 1rem;
-}
-
-
-@media (min-width: 1450px) {
-  #statByOp>div:nth-child(4n+2) {
-    border-right: none;
-  }
-
-
-  #statByOp>div:nth-last-child(-n+4) {
-    border-bottom: none;
-  }
-}
-
-
-@media (max-width: 1450px) and (min-width: 1100px) {
-  #statByOp {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  #statByOp h2,
-  #statByOp h3 {
-    grid-column: span 3;
-  }
-
-  #statByOp>div:nth-child(3n+2) {
-    border-right: none;
-  }
-
-
-  #statByOp>div:nth-last-child(-n+2) {
-    border-bottom: none;
-  }
-}
-
-
-@media (max-width: 1100px) and (min-width: 800px) {
-  #statByOp {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  #statByOp h2,
-  #statByOp h3 {
-    grid-column: span 2;
-  }
-
-  #statByOp>div:nth-child(2n+2) {
-    border-right: none;
-  }
-
-
-  #statByOp>div:nth-last-child(-n+2) {
-    border-bottom: none;
-  }
-
-}
-
-
-@media (max-width: 800px) {
-  #statByOp {
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  #statByOp h2,
-  #statByOp h3 {
-    grid-column: span 1;
-  }
-
-  #statByOp>div:nth-child(n+2) {
-    border-right: none;
-  }
-
-
-  #statByOp>div:nth-last-child(-n+1) {
-    border-bottom: none;
-  }
 }
 </style>
