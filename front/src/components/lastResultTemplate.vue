@@ -3,12 +3,20 @@ import type { Result } from '@/models/result';
 
 
 interface Props {
-  lastResult: Result;
+  result: Result[];
 }
 
-const { lastResult } = defineProps<Props>();
+const { result } = defineProps<Props>();
 
-console.log(lastResult.accuracy);
+console.log(result);
+
+var accuracy = [];
+
+for (let elt of result) {
+  accuracy.push([elt.date, elt.accuracy])
+}
+
+console.log(accuracy)
 
 const emit = defineEmits<{
   'more': []
@@ -18,18 +26,67 @@ function listenMore(event: Event): void {
   emit('more')
 }
 
+var x = new Date("11 Nov 2012").getTime();
+
+var series = [{
+  name: "Accuracy",
+  data: accuracy
+}]
+
+var options = {
+  chart: {
+    height: 200,
+    type: 'line',
+    zoom: {
+      enabled: false
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'smooth',
+    width: 2
+  },
+  xaxis: {
+    type: "datetime",
+    axisBorder: {
+      show: false
+    },
+    axisTicks: {
+      show: false
+    },
+    labels: {
+      datetimeFormatter: {
+        year: 'yyyy',
+        month: 'MMM yyyy',
+        day: 'dd MMM',
+        hour: 'HH:mm'
+      }
+    }
+  },
+  yaxis: {
+    min: 0,
+    max: 100,
+    decimalsInFloat: 0,
+    title: {
+      text: 'Accuracy',
+    },
+  },
+  tooltip: {
+    x: {
+      format: "dd MMM yyyy"
+    },
+  },
+};
+
 </script>
 
 <template>
-  <div id="lastResultTemplate">
-    <h2>Dernier résultat</h2>
-    <div id="lastResultTab">
-      <p> Questions</p>
-      <p> Temps moyen (s)</p>
-      <p> Précision (%)</p>
-      <p> {{ lastResult.totalAttempts }}</p>
-      <p> {{ lastResult.meanTime.toFixed(2) }} </p>
-      <p> {{ lastResult.accuracy.toFixed(0) }}</p>
+  <div id="resultTemplate">
+    <h2>Résultat</h2>
+    <div>
+      <apexchart width="600" height="300" type="line" :options="options" :series="series"></apexchart>
     </div>
     <button @click="listenMore"> Voir plus</button>
   </div>
@@ -39,16 +96,8 @@ function listenMore(event: Event): void {
 
 
 <style scoped>
-#lastResultTemplate {
+#resultTemplate {
   width: 100%;
-}
-
-#lastResultTab {
-  display: grid;
-  grid-template-columns: auto auto auto;
-
-  align-items: stretch;
-  justify-items: stretch;
 }
 
 h2 {

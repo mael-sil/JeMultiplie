@@ -33,8 +33,7 @@ console.log(resultHistory.value)
   </header>
   <main>
     <StartMenu @start="listenStart" />
-    <ResultTemplate v-if="resultHistory.length !== 0" :lastResult="resultHistory[resultHistory.length - 1]"
-      @more="listenMore" />
+    <ResultTemplate v-if="resultHistory.length !== 0" :result="resultHistory" @more="listenMore" />
   </main>
 </template>
 
