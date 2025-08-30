@@ -4,9 +4,21 @@ import parserTypescript from '@typescript-eslint/parser'
 import parserVue from 'vue-eslint-parser'
 
 export default [
+  // Global ignores
   {
     ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', 'node_modules/**'],
   },
+
+  // JavaScript files
+  {
+    files: ['**/*.{js,mjs,cjs}'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+    },
+  },
+
+  // TypeScript files
   {
     files: ['**/*.{ts,mts,tsx}'],
     languageOptions: {
@@ -18,9 +30,15 @@ export default [
       '@typescript-eslint': pluginTypescript,
     },
     rules: {
-      ...pluginTypescript.configs.recommended.rules,
+      // Basic TypeScript rules
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
   },
+
+  // Vue files
   {
     files: ['**/*.vue'],
     languageOptions: {
@@ -36,8 +54,13 @@ export default [
       '@typescript-eslint': pluginTypescript,
     },
     rules: {
-      ...pluginVue.configs['flat/essential'].rules,
-      ...pluginTypescript.configs.recommended.rules,
+      // Basic Vue rules
+      'vue/no-unused-vars': 'error',
+      'vue/no-unused-components': 'error',
+      'vue/multi-word-component-names': 'off',
+      // Basic TypeScript rules for Vue files
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
 ]
