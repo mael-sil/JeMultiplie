@@ -7,6 +7,11 @@ import StartMenu from "@/components/startMenu.vue";
 import ResultTemplate from "@/components/lastResultTemplate.vue";
 import headerTemplate from '@/components/headerTemplate.vue';
 
+// Rename component to satisfy multi-word rule
+defineOptions({
+  name: 'HomePage'
+})
+
 const router = useRouter();
 
 const resultHistory = ref<Result[]>(getSave())

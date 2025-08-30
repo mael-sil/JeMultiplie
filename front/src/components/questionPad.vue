@@ -105,7 +105,7 @@ const interval = setInterval(() => {
   compteur.value += 1;
 }, 1000)
 
-function listenReset(event: Event): void {
+function listenReset(): void {
   mean.value = null;
   accuracy.value = null;
   compteur.value = 0;
@@ -119,7 +119,7 @@ function listenReset(event: Event): void {
 const router = useRouter();
 
 
-function listenStop(event: Event): void {
+function listenStop(): void {
   clearInterval(interval);
   endSaveStorage();
   reset();

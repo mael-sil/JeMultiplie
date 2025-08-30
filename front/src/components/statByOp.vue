@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Result } from '@/models/result';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import progressBar from './progressBar.vue';
 
 interface Props {
@@ -37,8 +37,8 @@ console.log(groups)
 
 
 <template>
-  <div v-for="group of groups">
-    <div class="operation-result" v-for="elt of group">
+  <div v-for="(group, groupIndex) of groups" :key="groupIndex">
+    <div class="operation-result" v-for="(elt, eltIndex) of group" :key="`${groupIndex}-${eltIndex}`">
       <p>{{ elt.operation.a }} x {{ elt.operation.b }}</p>
       <p v-if="elt.totalAttempts > 0" :class="getPercentageColor(elt.goodAnswers, elt.totalAttempts)">{{ (100 *
         elt.goodAnswers / elt.totalAttempts).toFixed(0) }}%</p>

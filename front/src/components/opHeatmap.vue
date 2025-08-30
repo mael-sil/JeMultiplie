@@ -1,43 +1,42 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { Result } from '@/models/result';
-import { dateFormating } from '@/composables/date';
+import type { Result } from '@/models/result'
 
 interface Props {
-  result: Result;
+  result: Result
 }
 
-const { result: result } = defineProps<Props>();
+const { result: result } = defineProps<Props>()
 
 console.log(result)
 
 const operation = ref<number[]>([])
 
-const series = ref<{
-  name: string;
-  data: number[];
-}[]>([
-])
+const series = ref<
+  {
+    name: string
+    data: number[]
+  }[]
+>([])
 
 for (let i = 2; i < 10; i++) {
   operation.value.push(i)
 
-  var data = Array(8);
+  const data = Array(8)
 
-  for (let elt of result.operationsResult) {
+  for (const elt of result.operationsResult) {
     if (elt.operation.a === i) {
       if (elt.totalAttempts === 0) {
         data[elt.operation.b - 2] = 0
       } else {
-        data[elt.operation.b - 2] = 100 * elt.goodAnswers / elt.totalAttempts
+        data[elt.operation.b - 2] = (100 * elt.goodAnswers) / elt.totalAttempts
       }
-
     }
     if (elt.operation.b === i) {
       if (elt.totalAttempts === 0) {
         data[elt.operation.a - 2] = 0
       } else {
-        data[elt.operation.a - 2] = 100 * elt.goodAnswers / elt.totalAttempts
+        data[elt.operation.a - 2] = (100 * elt.goodAnswers) / elt.totalAttempts
       }
     }
   }
@@ -46,40 +45,37 @@ for (let i = 2; i < 10; i++) {
 
   series.value.push({
     name: `${i}`,
-    data: data
+    data: data,
   })
-
-
 }
 
 console.log(operation)
 
-
 const options = ref({
   chart: {
-    id: 'vheatmap'
+    id: 'vheatmap',
   },
   xaxis: {
     categories: operation.value,
     position: 'top',
   },
   legend: {
-    show: false
+    show: false,
   },
   plotOptions: {
     heatmap: {
       enableShades: false,
       colorScale: {
         ranges: [
-          { from: 0, to: 4, color: '#1A33B3', name: 'step1' },    // x="0"
-          { from: 4, to: 8, color: '#1E3BAE', name: 'step2' },    // x="1"
-          { from: 8, to: 12, color: '#2242AA', name: 'step3' },   // x="2"
-          { from: 12, to: 16, color: '#2549A7', name: 'step4' },  // x="3"
-          { from: 16, to: 20, color: '#2950A3', name: 'step5' },  // x="4"
-          { from: 20, to: 24, color: '#2C57A0', name: 'step6' },  // x="5"
-          { from: 24, to: 28, color: '#305E9C', name: 'step7' },  // x="6"
-          { from: 28, to: 32, color: '#346498', name: 'step8' },  // x="7"
-          { from: 32, to: 36, color: '#396B93', name: 'step9' },  // x="8"
+          { from: 0, to: 4, color: '#1A33B3', name: 'step1' }, // x="0"
+          { from: 4, to: 8, color: '#1E3BAE', name: 'step2' }, // x="1"
+          { from: 8, to: 12, color: '#2242AA', name: 'step3' }, // x="2"
+          { from: 12, to: 16, color: '#2549A7', name: 'step4' }, // x="3"
+          { from: 16, to: 20, color: '#2950A3', name: 'step5' }, // x="4"
+          { from: 20, to: 24, color: '#2C57A0', name: 'step6' }, // x="5"
+          { from: 24, to: 28, color: '#305E9C', name: 'step7' }, // x="6"
+          { from: 28, to: 32, color: '#346498', name: 'step8' }, // x="7"
+          { from: 32, to: 36, color: '#396B93', name: 'step9' }, // x="8"
           { from: 36, to: 40, color: '#3F718D', name: 'step10' }, // x="9"
           { from: 40, to: 44, color: '#457788', name: 'step11' }, // x="10"
           { from: 44, to: 48, color: '#4C7E82', name: 'step12' }, // x="11"
@@ -94,10 +90,10 @@ const options = ref({
           { from: 80, to: 84, color: '#ABDA69', name: 'step21' }, // x="20"
           { from: 84, to: 90, color: '#BCE567', name: 'step22' }, // x="21"
           { from: 90, to: 100, color: '#D2EF66', name: 'step23' }, // x="22"
-        ]
-      }
-    }
-  }
+        ],
+      },
+    },
+  },
 })
 </script>
 

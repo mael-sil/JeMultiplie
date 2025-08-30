@@ -1,69 +1,68 @@
 <script setup lang="ts">
-import type { Result } from '@/models/result';
-
+import type { Result } from '@/models/result'
 
 interface Props {
-  result: Result[];
+  result: Result[]
 }
 
-const { result } = defineProps<Props>();
+const { result } = defineProps<Props>()
 
-console.log(result);
+console.log(result)
 
-var accuracy = [];
+const accuracy = []
 
-for (let elt of result) {
+for (const elt of result) {
   accuracy.push([elt.date, elt.accuracy])
 }
 
 console.log(accuracy)
 
 const emit = defineEmits<{
-  'more': []
+  more: []
 }>()
 
-function listenMore(event: Event): void {
+function listenMore(): void {
   emit('more')
 }
 
-var x = new Date("11 Nov 2012").getTime();
+const series = [
+  {
+    name: 'Accuracy',
+    data: accuracy,
+  },
+]
 
-var series = [{
-  name: "Accuracy",
-  data: accuracy
-}]
-
-var options = {
+const options = {
   chart: {
     height: 200,
     type: 'line',
     zoom: {
-      enabled: false
-    }
+      enabled: false,
+    },
   },
   dataLabels: {
-    enabled: false
+    enabled: false,
   },
   stroke: {
     curve: 'smooth',
-    width: 2
+    width: 2,
   },
   xaxis: {
-    type: "datetime",
+    type: 'datetime',
     axisBorder: {
-      show: false
+      show: false,
     },
     axisTicks: {
-      show: false
+      show: false,
     },
     labels: {
       datetimeFormatter: {
         year: 'yyyy',
         month: 'MMM yyyy',
         day: 'dd MMM',
-        hour: 'HH:mm'
-      }
-    }
+        hour: 'HH:mm',
+      },
+    },
   },
   yaxis: {
     min: 0,
@@ -75,25 +74,27 @@ var options = {
   },
   tooltip: {
     x: {
-      format: "dd MMM yyyy"
+      format: 'dd MMM yyyy',
     },
   },
-};
-
+}
 </script>
 
 <template>
   <div id="resultTemplate">
     <h2>Résultat</h2>
     <div>
-      <apexchart width="600" height="300" type="line" :options="options" :series="series"></apexchart>
+      <apexchart
+        width="600"
+        height="300"
+        type="line"
+        :options="options"
+        :series="series"
+      ></apexchart>
     </div>
-    <button @click="listenMore"> Voir plus</button>
+    <button @click="listenMore">Voir plus</button>
   </div>
-
-
 </template>
-
 
 <style scoped>
 #resultTemplate {
@@ -121,7 +122,7 @@ p:nth-child(3n) {
   border-right: none;
 }
 
-p:nth-last-child(-n+3) {
+p:nth-last-child(-n + 3) {
   border-bottom: none;
 }
 </style>

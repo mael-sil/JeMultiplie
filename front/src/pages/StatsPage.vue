@@ -11,6 +11,11 @@ import { useRouter } from 'vue-router';
 import { dateFormating } from '@/composables/date';
 import opHeatmap from '@/components/OpHeatmap.vue'
 
+// Rename component to satisfy multi-word rule
+defineOptions({
+  name: 'StatsPage'
+})
+
 const resultHistory = ref<Result[]>(getSave())
 
 const router = useRouter();
@@ -48,7 +53,7 @@ function listenSelected(result: Result) {
         <h2>Historique</h2>
         <div id="tab">
           <resultTopRow />
-          <resultRowTemplate v-for="elt in [...resultHistory].reverse()" :result="elt" :selected="elt === selected"
+          <resultRowTemplate v-for="(elt, index) in [...resultHistory].reverse()" :key="index" :result="elt" :selected="elt === selected"
             @is-selected="listenSelected" />
         </div>
       </div>

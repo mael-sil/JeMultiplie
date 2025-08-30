@@ -4,7 +4,7 @@ const emit = defineEmits<{
   'start': []
 }>()
 
-function listenStart(event: Event): void {
+function listenStart(): void {
   emit('start')
 }
 </script>

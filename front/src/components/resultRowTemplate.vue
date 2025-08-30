@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>()
 
 
-function listenSelected(event: Event) {
+function listenSelected() {
   emit("isSelected", result)
 }
 </script>

@@ -70,7 +70,7 @@ export function getOperation(min: number, max: number): Operation {
     weightsTmp[i] += weightsTmp[i - 1]
   }
 
-  let random = Math.random() * weightsTmp[weightsTmp.length - 1]
+  const random = Math.random() * weightsTmp[weightsTmp.length - 1]
 
   for (i = 0; i < operationWeights.length; i++) {
     if (weightsTmp[i] > random) {
@@ -147,7 +147,7 @@ export function reset(): void {
  */
 export function endSaveStorage(): void {
   if (totalAttempts > 0) {
-    let resultHistory: Result[] = getSave()
+    const resultHistory: Result[] = getSave()
 
     resultHistory.push({
       date: new Date(),
