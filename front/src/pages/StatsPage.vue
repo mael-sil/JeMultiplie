@@ -1,45 +1,43 @@
 <script setup lang="ts">
-import headerTemplate from '@/components/headerTemplate.vue';
-import resultRowTemplate from '@/components/resultRowTemplate.vue';
-import resultTopRow from '@/components/resultTopRow.vue';
-import { getSave } from '@/composables/save';
-import type { Result } from '@/models/result';
-import { computed, ref } from 'vue';
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { useRouter } from 'vue-router';
-import { dateFormating } from '@/composables/date';
-import opHeatmap from '@/components/OpHeatmap.vue'
+import headerTemplate from '@/components/headerTemplate.vue'
+import resultRowTemplate from '@/components/resultRowTemplate.vue'
+import resultTopRow from '@/components/resultTopRow.vue'
+import { getSave } from '@/composables/save'
+import type { Result } from '@/models/result'
+import { computed, ref } from 'vue'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { useRouter } from 'vue-router'
+import { dateFormating } from '@/composables/date'
+import opHeatmap from '@/components/opHeatmap.vue'
 
 // Rename component to satisfy multi-word rule
 defineOptions({
-  name: 'StatsPage'
+  name: 'StatsPage',
 })
 
 const resultHistory = ref<Result[]>(getSave())
 
-const router = useRouter();
+const router = useRouter()
 
-library.add(faXmark);
+library.add(faXmark)
 
 function listenQuit() {
-  router.push("/")
+  router.push('/')
 }
 
-const selected = ref(resultHistory.value[resultHistory.value.length - 1]);
+const selected = ref(resultHistory.value[resultHistory.value.length - 1])
 
 const dateSelected = computed(() => {
-  if (!selected.value) return '';
-  return dateFormating(new Date(selected.value.date));
-});
+  if (!selected.value) return ''
+  return dateFormating(new Date(selected.value.date))
+})
 
 function listenSelected(result: Result) {
-  selected.value = result;
+  selected.value = result
 }
-
 </script>
 <template>
-
   <header>
     <headerTemplate />
   </header>
@@ -53,8 +51,13 @@ function listenSelected(result: Result) {
         <h2>Historique</h2>
         <div id="tab">
           <resultTopRow />
-          <resultRowTemplate v-for="(elt, index) in [...resultHistory].reverse()" :key="index" :result="elt" :selected="elt === selected"
-            @is-selected="listenSelected" />
+          <resultRowTemplate
+            v-for="(elt, index) in [...resultHistory].reverse()"
+            :key="index"
+            :result="elt"
+            :selected="elt === selected"
+            @is-selected="listenSelected"
+          />
         </div>
       </div>
 
@@ -63,14 +66,9 @@ function listenSelected(result: Result) {
         <h3>Pour la session du {{ dateSelected }}</h3>
         <opHeatmap :result="selected" />
       </div>
-
     </div>
-
   </main>
 </template>
-
-
-
 
 <style>
 #tab {
@@ -98,9 +96,8 @@ function listenSelected(result: Result) {
   justify-items: stretch;
 }
 
-
 #resultTab p,
-#statByOp>div {
+#statByOp > div {
   margin: 0;
   padding: 0.5rem 0rem;
 
