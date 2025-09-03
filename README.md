@@ -55,7 +55,6 @@ https://mael-sil.github.io/JeMultiplie/
 </p>
 
 ## Prochaine étape 
-- Statistique des operations global en prenant toute les sessions
-- Ajout d'un backend en Node.js pour stocker les résultats des utilisateurs dans une base de données ou un fichier.
-- Mode "temps" avec timer limité
-- Mode "course" avec nombre de question limité à résoudre le plus rapidement possible
+- Amélioration du front avec un meilleure page d'acceuil et une page de dashboard avec les statistique des session d'entrainement.
+- Ajout d'un backend pour stocker les résultats des utilisateurs dans une base de données avec un systéme d'utilisateur et d'authentification.
+- Ajout de fonctionnalité: Mode "temps" avec timer limité et Mode "course" avec nombre de question limité à résoudre le plus rapidement possible
