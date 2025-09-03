@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import headerTemplate from '@/components/headerTemplate.vue'
 import resultRowTemplate from '@/components/resultRowTemplate.vue'
 import resultTopRow from '@/components/resultTopRow.vue'
 import { getSave } from '@/composables/save'
@@ -38,36 +37,31 @@ function listenSelected(result: Result) {
 }
 </script>
 <template>
-  <header>
-    <headerTemplate />
-  </header>
-  <main>
-    <div id="stat">
-      <div title="Fermer" @click="listenQuit" id="cross">
-        <font-awesome-icon :icon="['fas', 'xmark']" size="2x" />
-      </div>
+  <div id="stat">
+    <div title="Fermer" @click="listenQuit" id="cross">
+      <font-awesome-icon :icon="['fas', 'xmark']" size="2x" />
+    </div>
 
-      <div id="resultTab">
-        <h2>Historique</h2>
-        <div id="tab">
-          <resultTopRow />
-          <resultRowTemplate
-            v-for="(elt, index) in [...resultHistory].reverse()"
-            :key="index"
-            :result="elt"
-            :selected="elt === selected"
-            @is-selected="listenSelected"
-          />
-        </div>
-      </div>
-
-      <div id="statByOp">
-        <h2>Pourcentage de réussite par operation</h2>
-        <h3>Pour la session du {{ dateSelected }}</h3>
-        <opHeatmap :result="selected" />
+    <div id="resultTab">
+      <h2>Historique</h2>
+      <div id="tab">
+        <resultTopRow />
+        <resultRowTemplate
+          v-for="(elt, index) in [...resultHistory].reverse()"
+          :key="index"
+          :result="elt"
+          :selected="elt === selected"
+          @is-selected="listenSelected"
+        />
       </div>
     </div>
-  </main>
+
+    <div id="statByOp">
+      <h2>Pourcentage de réussite par operation</h2>
+      <h3>Pour la session du {{ dateSelected }}</h3>
+      <opHeatmap :result="selected" />
+    </div>
+  </div>
 </template>
 
 <style>

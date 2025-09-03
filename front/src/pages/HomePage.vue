@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { getSave } from '@/composables/save';
-import type { Result } from '@/models/result';
-import { ref } from 'vue';
-import { useRouter } from "vue-router";
-import StartMenu from "@/components/startMenu.vue";
-import ResultTemplate from "@/components/lastResultTemplate.vue";
-import headerTemplate from '@/components/headerTemplate.vue';
+import { getSave } from '@/composables/save'
+import type { Result } from '@/models/result'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import StartMenu from '@/components/startMenu.vue'
+import ResultTemplate from '@/components/lastResultTemplate.vue'
 
 // Rename component to satisfy multi-word rule
 defineOptions({
-  name: 'HomePage'
+  name: 'HomePage',
 })
 
-const router = useRouter();
+const router = useRouter()
 
 const resultHistory = ref<Result[]>(getSave())
 
@@ -24,27 +23,10 @@ function listenMore(): void {
   router.push('stats')
 }
 
-
-
 console.log(resultHistory.value)
-
-
 </script>
 
 <template>
-
-  <header>
-    <headerTemplate />
-  </header>
-  <main>
-    <StartMenu @start="listenStart" />
-    <ResultTemplate v-if="resultHistory.length !== 0" :result="resultHistory" @more="listenMore" />
-  </main>
+  <StartMenu @start="listenStart" />
+  <ResultTemplate v-if="resultHistory.length !== 0" :result="resultHistory" @more="listenMore" />
 </template>
-
-<style scoped>
-main>div {
-  margin: 1rem 0rem;
-  padding: 0.5rem 0.2rem;
-}
-</style>
