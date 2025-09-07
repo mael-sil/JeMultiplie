@@ -58,3 +58,11 @@ https://mael-sil.github.io/JeMultiplie/
 - Amélioration du front avec un meilleure page d'acceuil et une page de dashboard avec les statistique des session d'entrainement.
 - Ajout d'un backend pour stocker les résultats des utilisateurs dans une base de données avec un systéme d'utilisateur et d'authentification.
 - Ajout de fonctionnalité: Mode "temps" avec timer limité et Mode "course" avec nombre de question limité à résoudre le plus rapidement possible
+
+### Maquette Figma du nouveau front
+<p align="center">
+<img width="80%" alt="JeMultiplie_home_figma" src="https://github.com/user-attachments/assets/931238ce-0d63-47ed-bc4e-84909751b111" />
+<img width="80%" alt="JeMultiplie_stats_figma" src="https://github.com/user-attachments/assets/d45a1eac-6199-4b16-950f-4c3f0127f9ff" />
+<img width="80%" alt="JeMultiplie_auth_figma" src="https://github.com/user-attachments/assets/cc9304e6-10ee-4058-aac2-073eede82b83" />
+</p>
+
