@@ -26,8 +26,8 @@ function listenDark() {
 
 <template>
 
-  <div id="logo">
-    <font-awesome-icon :icon="['fas', 'calculator']" size="lg" />
+  <div id="logo-wrapper">
+    <font-awesome-icon :icon="['fas', 'calculator']" size="lg" id="logo" />
   </div>
 
   <h1>JeMultiplie</h1>
@@ -43,10 +43,14 @@ function listenDark() {
 </template>
 
 <style scoped>
-#logo {
+#logo-wrapper {
   display: flex;
   justify-content: center;
-  color: rgb(146, 90, 197);
+}
+
+#logo {
+  width: 26px;
+  height: 26px;
 }
 
 
@@ -58,6 +62,5 @@ button {
   height: 2.5rem;
 
   border-radius: 50%;
-  border: 0.05rem solid lightgrey;
 }
 </style>

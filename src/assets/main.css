@@ -2,21 +2,17 @@
   font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
 }
 
-header,
 main div {
   background-color: white;
 }
 
 .dark,
-.dark button,
 .dark input,
-.dark header,
 .dark main div {
   background-color: black;
   color: white;
 }
 
-.dark header,
 .dark main > div {
   box-shadow: 0px 0px 10px darkgrey;
 }
@@ -29,15 +25,23 @@ body,
   min-height: 100vh;
 }
 
+.dark #app {
+  background: #1a1a2e;
+  background: linear-gradient(
+    140deg,
+    rgba(26, 26, 46, 1) 0%,
+    rgba(45, 27, 105, 1) 50%,
+    rgba(139, 32, 132, 1) 100%
+  );
+}
+
 #app {
-  background-color: #f8f9fa;
+  background: #f3c4d8;
+  background: linear-gradient(140deg, rgba(243, 196, 216, 1) 0%, rgba(196, 220, 242, 1) 100%);
+
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.dark #app {
-  background-color: rgb(14, 13, 13);
 }
 
 h2 {
@@ -53,6 +57,7 @@ h1 {
 
   text-align: center;
   vertical-align: middle;
+  padding: 0rem 0.25rem;
 }
 
 h3 {
@@ -77,7 +82,16 @@ main > div {
 }
 
 button {
-  background: white;
+  background: rgb(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 0.05rem solid rgb(75, 75, 75);
+}
+
+.dark button {
+  color: white;
+  background: rgb(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 0.05rem solid lightgray;
 }
 
 main button {
@@ -116,10 +130,15 @@ header {
   gap: 0.5rem;
 
   padding: 0rem 1rem;
-
-  box-shadow: 0px 0px 10px lightgrey;
   align-self: stretch;
+
+  border-bottom: 0.05rem solid rgb(75, 75, 75, 0.6);
 }
+
+.dark header {
+  border-bottom: 0.05rem solid rgb(211, 211, 211, 0.6);
+}
+
 input {
   background-color: white;
 }
