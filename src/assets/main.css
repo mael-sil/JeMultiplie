@@ -81,19 +81,6 @@ main > div {
   align-items: center;
 }
 
-button {
-  background: rgb(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  border: 0.05rem solid rgb(75, 75, 75);
-}
-
-.dark button {
-  color: white;
-  background: rgb(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 0.05rem solid lightgray;
-}
-
 main button {
   text-align: center;
 
@@ -103,10 +90,6 @@ main button {
   padding: 0rem 3rem;
 
   font-size: 3rem;
-}
-
-button:hover {
-  border: 0.14rem solid rgb(146, 90, 197) !important;
 }
 
 main {
@@ -125,14 +108,12 @@ main {
 header {
   display: flex;
   flex-direction: row;
-
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
-
-  padding: 0rem 1rem;
-  align-self: stretch;
-
+  padding: 0rem 2rem;
   border-bottom: 0.05rem solid rgb(75, 75, 75, 0.6);
+  width: calc(100vw - 2rem);
 }
 
 .dark header {

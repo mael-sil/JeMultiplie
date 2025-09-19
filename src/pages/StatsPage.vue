@@ -37,7 +37,7 @@ function listenSelected(result: Result) {
 }
 </script>
 <template>
-  <div id="stat">
+  <div id="stat" v-if="resultHistory.length !== 0">
     <div title="Fermer" @click="listenQuit" id="cross">
       <font-awesome-icon :icon="['fas', 'xmark']" size="2x" />
     </div>
@@ -46,13 +46,8 @@ function listenSelected(result: Result) {
       <h2>Historique</h2>
       <div id="tab">
         <resultTopRow />
-        <resultRowTemplate
-          v-for="(elt, index) in [...resultHistory].reverse()"
-          :key="index"
-          :result="elt"
-          :selected="elt === selected"
-          @is-selected="listenSelected"
-        />
+        <resultRowTemplate v-for="(elt, index) in [...resultHistory].reverse()" :key="index" :result="elt"
+          :selected="elt === selected" @is-selected="listenSelected" />
       </div>
     </div>
 
@@ -61,6 +56,9 @@ function listenSelected(result: Result) {
       <h3>Pour la session du {{ dateSelected }}</h3>
       <opHeatmap :result="selected" />
     </div>
+  </div>
+  <div v-else>
+    <p>Pas de stat disponible</p>
   </div>
 </template>
 
@@ -91,7 +89,7 @@ function listenSelected(result: Result) {
 }
 
 #resultTab p,
-#statByOp > div {
+#statByOp>div {
   margin: 0;
   padding: 0.5rem 0rem;
 
