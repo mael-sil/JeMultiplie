@@ -1,63 +1,98 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 
-const whiteMode = ref(true);
+const whiteMode = ref(false)
+document.body.classList.add('dark')
 
-const savedMode = localStorage.getItem("whiteMode");
+const savedMode = localStorage.getItem('whiteMode')
 
 if (savedMode) {
-  whiteMode.value = (savedMode === "true");
+  whiteMode.value = savedMode === 'true'
+  if (whiteMode.value == false) {
+    document.body.classList.add('dark')
+  }
 }
 
 function listenWhite() {
   whiteMode.value = false
   document.body.classList.add('dark')
 
-  localStorage.setItem("whiteMode", "false")
+  localStorage.setItem('whiteMode', 'false')
 }
 
 function listenDark() {
   whiteMode.value = true
   document.body.classList.remove('dark')
-  localStorage.setItem("whiteMode", "true")
+  localStorage.setItem('whiteMode', 'true')
 }
-
 </script>
 
 <template>
-
-  <div id="logo">
-    <font-awesome-icon :icon="['fas', 'calculator']" size="lg" />
+  <div class="left">
+    <div id="logo-wrapper">
+      <font-awesome-icon :icon="['fas', 'calculator']" size="lg" id="logo" />
+    </div>
+    <h1>JeMultiplie</h1>
   </div>
 
-  <h1>JeMultiplie</h1>
-
-
-
-  <button v-if="whiteMode" @click="listenWhite"><font-awesome-icon :icon="['fas', 'moon']" /></button>
-  <button v-else @click="listenDark"><font-awesome-icon :icon="['fas', 'sun']" /></button>
-
-
-
-
+  <div class="right">
+    <router-link to="/game"><button>Jouer</button></router-link>
+    <!-- Hide statistique page for now as it is not finished -->
+    <router-link to="/stats" style="display: none"><button>Statistique</button></router-link>
+    <button class="dark-mode-button" v-if="whiteMode" @click="listenWhite">
+      <font-awesome-icon :icon="['fas', 'moon']" />
+    </button>
+    <button class="dark-mode-button" v-else @click="listenDark">
+      <font-awesome-icon :icon="['fas', 'sun']" />
+    </button>
+  </div>
 </template>
 
 <style scoped>
-#logo {
+.left,
+.right {
   display: flex;
-  justify-content: center;
-  color: rgb(146, 90, 197);
+  align-items: center;
+  flex-direction: row;
+  gap: 0.5rem;
 }
 
+#logo-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+#logo {
+  width: 26px;
+  height: 26px;
+}
 
 button {
-  justify-self: end;
+  background: rgb(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  border: 0.14rem solid rgb(0, 0, 0, 0);
+  border-radius: 40px;
+  padding: 0.5rem 1rem;
+}
 
-  margin-left: auto;
-  width: 2.5rem;
-  height: 2.5rem;
+.dark button {
+  color: white;
+  background: rgb(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
 
+.dark-mode-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
   border-radius: 50%;
-  border: 0.05rem solid lightgrey;
+}
+
+button:hover {
+  border: 0.1rem solid #1a1a2e !important;
+}
+
+.dark button:hover {
+  border-color: #f3c4d8 !important;
 }
 </style>

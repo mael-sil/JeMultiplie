@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
 const emit = defineEmits<{
-  'start': []
+  start: []
 }>()
 
 function listenStart(): void {
@@ -13,13 +12,7 @@ function listenStart(): void {
   <div id="startMenu">
     <h2>Démarrer le jeu</h2>
     <button @click="listenStart">Start</button>
-
-
-
-
   </div>
-
-
 </template>
 
 <style scoped>

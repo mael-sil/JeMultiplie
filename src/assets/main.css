@@ -1,47 +1,50 @@
+:root {
+  --text-accent-one: #750075;
+}
+
+.dark {
+  --text-accent-one: #f9cdf9;
+}
+
 * {
   font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
 }
 
-header,
-main div {
-  background-color: white;
-}
-
-.dark,
-.dark button,
-.dark input,
-.dark header,
-.dark main div {
+.dark {
   background-color: black;
   color: white;
 }
 
-.dark header,
-.dark main > div {
-  box-shadow: 0px 0px 10px darkgrey;
-}
-
 body,
 #app {
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
   width: 100vw;
   min-height: 100vh;
 }
 
+.dark #app {
+  background: #1a1a2e;
+  background: linear-gradient(
+    140deg,
+    rgba(26, 26, 46, 1) 0%,
+    rgba(45, 27, 105, 1) 50%,
+    rgba(139, 32, 132, 1) 100%
+  );
+}
+
 #app {
-  background-color: #f8f9fa;
+  background: #f3c4d8;
+  background: linear-gradient(140deg, rgba(243, 196, 216, 1) 0%, rgba(196, 220, 242, 1) 100%);
+
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.dark #app {
-  background-color: rgb(14, 13, 13);
-}
-
 h2 {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: normal;
 }
 
@@ -53,6 +56,7 @@ h1 {
 
   text-align: center;
   vertical-align: middle;
+  padding: 0rem 0.25rem;
 }
 
 h3 {
@@ -67,17 +71,12 @@ h3 {
 
 main > div {
   border-radius: 1rem;
-  box-shadow: 0px 0px 10px lightgrey;
   padding: 0.5rem 0.5rem;
   margin: 1rem 0rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-button {
-  background: white;
 }
 
 main button {
@@ -89,10 +88,6 @@ main button {
   padding: 0rem 3rem;
 
   font-size: 3rem;
-}
-
-button:hover {
-  border: 0.14rem solid rgb(146, 90, 197) !important;
 }
 
 main {
@@ -111,17 +106,16 @@ main {
 header {
   display: flex;
   flex-direction: row;
-
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
-
-  padding: 0rem 1rem;
-
-  box-shadow: 0px 0px 10px lightgrey;
-  align-self: stretch;
+  padding: 0rem 2rem;
+  border-bottom: 0.05rem solid rgb(75, 75, 75, 0.6);
+  width: calc(100vw - 2rem);
 }
-input {
-  background-color: white;
+
+.dark header {
+  border-bottom: 0.05rem solid rgb(211, 211, 211, 0.6);
 }
 
 @media (max-width: 800px) {
@@ -150,4 +144,11 @@ input {
   p {
     font-size: 0.8rem;
   }
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  margin: 0.5rem;
 }

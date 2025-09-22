@@ -1,10 +1,10 @@
 <template>
   <div class="resultTopRow">
-    <p> Date</p>
-    <p> Nombre question</p>
-    <p> Bonne réponse</p>
-    <p> % Bonne réponse</p>
-    <p> Temps moyen (s)</p>
+    <p>Date</p>
+    <p>Nombre question</p>
+    <p>Bonne réponse</p>
+    <p>% Bonne réponse</p>
+    <p>Temps moyen (s)</p>
   </div>
 </template>
 
