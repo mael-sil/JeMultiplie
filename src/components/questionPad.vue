@@ -252,4 +252,15 @@ input,
 .hide {
   display: none;
 }
+
+@media (max-width: 540px) {
+  button {
+    font-size: 2.5rem;
+    padding: 0rem 1.8rem;
+  }
+
+  #display {
+    margin-bottom: 1rem;
+  }
+}
 </style>
