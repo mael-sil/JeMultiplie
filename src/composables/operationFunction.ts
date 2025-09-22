@@ -115,6 +115,8 @@ export function saveResult(
 
     operationWeights[indexOp] = operationResult[indexOp].meanTime
   } else {
+    operationResult[indexOp].totalTime += time + 10
+    totalTime += time + 10
     operationWeights[indexOp] += 100
   }
 
