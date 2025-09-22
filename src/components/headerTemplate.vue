@@ -37,7 +37,8 @@ function listenDark() {
 
   <div class="right">
     <router-link to="/game"><button>Jouer</button></router-link>
-    <router-link to="/stats"><button>Statistique</button></router-link>
+    <!-- Hide statistique page for now as it is not finished -->
+    <router-link to="/stats" style="display: none"><button>Statistique</button></router-link>
     <button class="dark-mode-button" v-if="whiteMode" @click="listenWhite">
       <font-awesome-icon :icon="['fas', 'moon']" />
     </button>
