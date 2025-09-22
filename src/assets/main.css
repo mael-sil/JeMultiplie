@@ -2,23 +2,15 @@
   font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
 }
 
-main div {
-  background-color: white;
-}
-
 .dark,
-.dark input,
-.dark main div {
+.dark input {
   background-color: black;
   color: white;
 }
 
-.dark main > div {
-  box-shadow: 0px 0px 10px darkgrey;
-}
-
 body,
 #app {
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -45,7 +37,7 @@ body,
 }
 
 h2 {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: normal;
 }
 
@@ -72,7 +64,6 @@ h3 {
 
 main > div {
   border-radius: 1rem;
-  box-shadow: 0px 0px 10px lightgrey;
   padding: 0.5rem 0.5rem;
   margin: 1rem 0rem;
 
@@ -150,4 +141,11 @@ input {
   p {
     font-size: 0.8rem;
   }
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  margin: 0.5rem;
 }
