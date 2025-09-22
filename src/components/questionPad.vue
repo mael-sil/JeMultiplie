@@ -17,16 +17,22 @@ const operation = ref<Operation>(getOperation(2, 9))
 const order = ref<boolean>(!!Math.round(Math.random()))
 
 function verifResult() {
-  console.log('test')
+  clearInterval(interval)
+  let timeoutValue: number = 200
 
   if (parseInt(input.value) === operation.value.result) {
     isResultTrue.value = true
   } else {
     isResultFalse.value = true
+    timeoutValue = 1200
   }
+
+  console.log('temps: ', compteur.value)
 
   setTimeout(() => {
     ;[mean.value, accuracy.value] = saveResult(operation.value, isResultTrue.value, compteur.value)
+    console.log('temps: ', compteur.value)
+    console.log('mean: ', mean.value)
 
     isResultTrue.value = false
     isResultFalse.value = false
@@ -36,8 +42,12 @@ function verifResult() {
     operation.value = getOperation(2, 9)
     order.value = !!Math.round(Math.random())
 
+    interval = setInterval(() => {
+      compteur.value += 1
+    }, 1000)
+
     console.log(order.value)
-  }, 200)
+  }, timeoutValue)
 }
 
 function listenNumPad(event: Event): void {
@@ -90,7 +100,7 @@ onUnmounted(() => {
 
 const compteur = ref(0)
 
-const interval = setInterval(() => {
+let interval = setInterval(() => {
   compteur.value += 1
 }, 1000)
 
@@ -129,12 +139,12 @@ function listenStop(): void {
 
     <p id="operation" v-if="order">{{ operation.a }} &times; {{ operation.b }}</p>
     <p id="operation" v-else>{{ operation.b }} &times; {{ operation.a }}</p>
-    <input
-      id="display"
-      :value="input"
-      disabled
-      :class="{ juste: isResultTrue, faux: isResultFalse }"
-    />
+    <div id="display">
+      <input :value="input" disabled :class="{ juste: isResultTrue, faux: isResultFalse }" />
+      <p id="correct-answer" :class="{ hide: !isResultFalse }">
+        {{ operation.result }}
+      </p>
+    </div>
     <p id="resultat" :style="{ visibility: mean === null ? 'hidden' : 'visible' }">
       Moyenne: {{ mean !== null ? mean.toFixed(2) : '' }} sec , Précision:{{
         accuracy !== null ? accuracy.toFixed(0) : ''
@@ -204,6 +214,7 @@ button {
 
 .faux {
   color: red !important;
+  text-decoration: line-through;
 }
 
 #numPad button:last-child {
@@ -217,12 +228,28 @@ button {
 }
 
 #display {
-  font-size: 3rem;
   text-align: center;
   margin-bottom: 4rem;
-  width: 10rem;
-  border: none;
-  color: var(--text-accent-one);
+  display: flex;
+  flex-direction: row;
+}
+
+input,
+#correct-answer {
   background: none;
+  border: none;
+  font-size: 3rem;
+  color: var(--text-accent-one);
+  width: 5rem;
+  text-align: center;
+  margin: 0;
+}
+
+#correct-answer {
+  color: green;
+}
+
+.hide {
+  display: none;
 }
 </style>
