@@ -1,34 +1,30 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
 interface Props {
-  time: number;
+  time: number
 }
 
-const { time } = defineProps<Props>();
+const { time } = defineProps<Props>()
 
 const width = computed(() => {
-  const w = (100 * time) / 15;
-  return w > 100 ? 100 : w;
-});
+  const w = (100 * time) / 15
+  return w > 100 ? 100 : w
+})
 
 const color = computed(() => {
-  if (time < 5) return 'limegreen'; // rapide
-  if (time < 10) return 'dodgerblue'; // moyen
-  return 'orangered'; // lent
-});
+  if (time < 5) return 'limegreen' // rapide
+  if (time < 10) return 'dodgerblue' // moyen
+  return 'orangered' // lent
+})
 </script>
-
 
 <template>
   <div v-if="width > 0" class="progress progress-blue">
     <span :style="{ width: width + '%', backgroundColor: color }"></span>
   </div>
   <span v-else> </span>
-
-
 </template>
-
 
 <style scoped>
 .progress {
@@ -51,7 +47,6 @@ const color = computed(() => {
   text-align: end;
   padding-right: 5px;
 }
-
 
 .progress-blue span {
   background-color: blue;

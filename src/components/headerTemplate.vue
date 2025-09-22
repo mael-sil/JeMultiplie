@@ -1,27 +1,26 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 
-const whiteMode = ref(true);
+const whiteMode = ref(true)
 
-const savedMode = localStorage.getItem("whiteMode");
+const savedMode = localStorage.getItem('whiteMode')
 
 if (savedMode) {
-  whiteMode.value = (savedMode === "true");
+  whiteMode.value = savedMode === 'true'
 }
 
 function listenWhite() {
   whiteMode.value = false
   document.body.classList.add('dark')
 
-  localStorage.setItem("whiteMode", "false")
+  localStorage.setItem('whiteMode', 'false')
 }
 
 function listenDark() {
   whiteMode.value = true
   document.body.classList.remove('dark')
-  localStorage.setItem("whiteMode", "true")
+  localStorage.setItem('whiteMode', 'true')
 }
-
 </script>
 
 <template>
@@ -42,9 +41,6 @@ function listenDark() {
       <font-awesome-icon :icon="['fas', 'sun']" />
     </button>
   </div>
-
-
-
 </template>
 
 <style scoped>
