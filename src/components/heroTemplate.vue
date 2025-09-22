@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const number1 = ref<number>(Math.floor(Math.random() * 7 + 2));
-const number2 = ref<number>(Math.floor(Math.random() * 7 + 2));
-const result = ref<number>(number1.value * number2.value);
+const number1 = ref<number>(Math.floor(Math.random() * 7 + 2))
+const number2 = ref<number>(Math.floor(Math.random() * 7 + 2))
+const result = ref<number>(number1.value * number2.value)
 
 setInterval(() => {
-  number1.value = Math.floor(Math.random() * 7 + 2);
-  number2.value = Math.floor(Math.random() * 7 + 2);
-  result.value = number1.value * number2.value;
+  number1.value = Math.floor(Math.random() * 7 + 2)
+  number2.value = Math.floor(Math.random() * 7 + 2)
+  result.value = number1.value * number2.value
 }, 1000)
-
 </script>
 
 <template>
@@ -25,12 +24,12 @@ setInterval(() => {
       </div>
       <div class="bottom">
         <div class="card card-info">
-          <img src="/bullseye-symbol.svg"></img>
+          <img src="/bullseye-symbol.svg" />
           <h3>Entraînement Intelligent</h3>
           <p>Système de révision des difficulté</p>
         </div>
         <div class="card card-info">
-          <img src="/chart-symbol.svg"></img>
+          <img src="/chart-symbol.svg" />
           <h3>Statistique détaillé</h3>
           <p>Analysez votre progression</p>
         </div>
@@ -39,8 +38,7 @@ setInterval(() => {
     <div class="right">
       <h2 id="hero-title"><span>Devenez un</span><span>génie du calcul mental</span></h2>
       <p>
-        Transformez votre cerveau en calculatrice ultra-rapide avec notre
-        entraînement intélligent
+        Transformez votre cerveau en calculatrice ultra-rapide avec notre entraînement intélligent
       </p>
       <router-link to="/game"><button>Lancer l'entraînement</button></router-link>
     </div>
@@ -129,10 +127,33 @@ img {
 }
 
 .dark #hero-title :nth-child(2) {
-  color: #FBBF24;
+  color: #fbbf24;
 }
 
 #hero-title :nth-child(2) {
-  color: #FF7B54;
+  color: #ff7b54;
+}
+
+@media (max-width: 860px) {
+  .hero-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .card.multiplication {
+    display: none;
+  }
+
+  #hero-title :first-child {
+    font-size: 2rem;
+  }
+
+  #hero-title :nth-child(2) {
+    font-size: 1.5rem;
+  }
+
+  .right button {
+    font-size: 1rem;
+  }
 }
 </style>
