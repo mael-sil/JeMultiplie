@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const whiteMode = ref(true)
+const whiteMode = ref(false)
+document.body.classList.add('dark')
 
 const savedMode = localStorage.getItem('whiteMode')
 
 if (savedMode) {
   whiteMode.value = savedMode === 'true'
+  if (whiteMode.value == false) {
+    document.body.classList.add('dark')
+  }
 }
 
 function listenWhite() {
