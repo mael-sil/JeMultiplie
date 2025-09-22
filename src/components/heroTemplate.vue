@@ -92,11 +92,7 @@ img {
 }
 
 .card.multiplication .operande {
-  color: purple;
-}
-
-.dark .card.multiplication .operande {
-  color: violet;
+  color: var(--text-accent-one);
 }
 
 .right {

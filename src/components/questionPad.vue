@@ -120,7 +120,7 @@ function listenStop(): void {
 </script>
 
 <template>
-  <div id="question">
+  <div id="question" class="card">
     <div id="topPart">
       <button @click="listenReset">reset</button>
       <p id="temps">{{ compteur }} sec</p>
@@ -141,20 +141,9 @@ function listenStop(): void {
       }}%
     </p>
     <div id="numPad" @click="listenNumPad">
-      <button type="button">7</button>
-      <button type="button">8</button>
-      <button type="button">9</button>
-
-      <button type="button">4</button>
-      <button type="button">5</button>
-      <button type="button">6</button>
-
-      <button type="button">1</button>
-      <button type="button">2</button>
-      <button type="button">3</button>
-
-      <button type="button">0</button>
+      <button v-for="value in 9" type="button">{{ 10 - value }}</button>
       <button type="button">&larr;</button>
+      <button>0</button>
     </div>
   </div>
 </template>
@@ -166,38 +155,47 @@ function listenStop(): void {
 }
 
 #temps,
-#resultat,
-#topPart button {
+#resultat {
   margin: 0;
   font-size: 1rem;
-  color: darkgrey;
 }
 
 #topPart button {
   padding: 0rem 1rem;
+  font-size: 1rem;
+}
+
+.dark #topPart button {
+  color: white;
 }
 
 #topPart {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  justify-items: center;
 
   width: 100%;
-}
-
-#topPart button:first-child {
-  justify-self: start;
-}
-
-#topPart button:last-child {
-  justify-self: end;
 }
 
 #numPad {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5rem 0.5rem;
+  direction: rtl;
+}
+
+button {
+  text-align: center;
+  border-radius: 1rem;
+  border: 0.14rem solid rgba(255, 255, 255, 0.5);
+  padding: 0rem 3rem;
+  font-size: 3rem;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark #numPad button {
+  color: white;
 }
 
 .juste {
@@ -208,7 +206,7 @@ function listenStop(): void {
   color: red !important;
 }
 
-button:nth-last-child(2) {
+#numPad button:last-child {
   grid-column: span 2;
 }
 
@@ -224,6 +222,7 @@ button:nth-last-child(2) {
   margin-bottom: 4rem;
   width: 10rem;
   border: none;
-  color: rgb(108, 19, 190);
+  color: var(--text-accent-one);
+  background: none;
 }
 </style>

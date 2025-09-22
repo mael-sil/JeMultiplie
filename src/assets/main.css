@@ -1,9 +1,16 @@
+:root {
+  --text-accent-one: #750075;
+}
+
+.dark {
+  --text-accent-one: #f9cdf9;
+}
+
 * {
   font-family: 'Inter', 'Poppins', 'Roboto', sans-serif;
 }
 
-.dark,
-.dark input {
+.dark {
   background-color: black;
   color: white;
 }
@@ -109,10 +116,6 @@ header {
 
 .dark header {
   border-bottom: 0.05rem solid rgb(211, 211, 211, 0.6);
-}
-
-input {
-  background-color: white;
 }
 
 @media (max-width: 800px) {
