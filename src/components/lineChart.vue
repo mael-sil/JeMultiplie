@@ -14,6 +14,7 @@ const { result } = defineProps<Props>()
 console.log(result)
 
 const accuracyMap = new Map<number, number[]>()
+const meanTimeMap = new Map<number, number[]>()
 
 for (const elt of result) {
   const date = new Date(elt.date)
@@ -23,7 +24,12 @@ for (const elt of result) {
     accuracyMap.set(normalizedDate, [])
   }
 
+  if (!meanTimeMap.has(normalizedDate)) {
+    meanTimeMap.set(normalizedDate, [])
+  }
+
   accuracyMap.get(normalizedDate)!.push(elt.accuracy)
+  meanTimeMap.get(normalizedDate)!.push(elt.meanTime)
 }
 
 const accuracy: [Date, number][] = []
@@ -33,28 +39,36 @@ for (const [timestamp, accuracies] of accuracyMap) {
   accuracy.push([new Date(timestamp), average])
 }
 
-accuracy.sort((a, b) => a[0].getTime() - b[0].getTime())
+const meanTime: [Date, number][] = []
 
-const paddingMs = 2 * 60 * 60 * 1000 // 1 jour et demi en ms
+for (const [timestamp, meanTimes] of meanTimeMap) {
+  const average = meanTimes.reduce((sum, val) => sum + val, 0) / meanTimes.length
+  meanTime.push([new Date(timestamp), average])
+}
+
+const maxMeanTime = Math.max(...meanTime.map((x) => x[1]))
+
+accuracy.sort((a, b) => a[0].getTime() - b[0].getTime())
+meanTime.sort((a, b) => a[0].getTime() - b[0].getTime())
+
+const paddingMs = accuracy.length <= 2 ? 62 * 60 * 60 * 1000 : 30 * 60 * 60 * 1000
 const timestamps = accuracy.map(([date]) => date.getTime())
 const minTimestamp = Math.min(...timestamps)
 const maxTimestamp = Math.max(...timestamps)
 
 const projectionStepMs = 24 * 60 * 60 * 1000 // 1 jour
-const projectedSeries: [Date, number][] = []
-const beforeSeries: [Date, number][] = []
+const projectedAccuracy: [Date, number][] = []
+const projectedMeanTime: [Date, number][] = []
 
-const [lastDate, lastValue] = accuracy[accuracy.length - 1]
-projectedSeries.push([lastDate, lastValue])
-const afterDate = new Date(lastDate.getTime() + 2 * projectionStepMs)
-const afterValue = Math.min(100, lastValue + 20)
-projectedSeries.push([afterDate, afterValue])
-
-const [firstDate, firstValue] = accuracy[0]
-beforeSeries.push([firstDate, firstValue])
-const beforeDate = new Date(firstDate.getTime() - 2 * projectionStepMs)
-const beforeValue = Math.max(0, firstValue - 20)
-beforeSeries.push([beforeDate, beforeValue])
+const [lastDate, lastAccuracyValue] = accuracy[accuracy.length - 1]
+const lastMeanTimeValue = meanTime[accuracy.length - 1][1]
+projectedAccuracy.push([lastDate, lastAccuracyValue])
+projectedMeanTime.push([lastDate, lastMeanTimeValue])
+const afterDate = new Date(lastDate.getTime() + 3 * projectionStepMs)
+const afterAccuracyValue = Math.min(100, lastAccuracyValue + 40)
+const afterMeanTimeValue = Math.max(1, lastMeanTimeValue - 2)
+projectedAccuracy.push([afterDate, afterAccuracyValue])
+projectedMeanTime.push([afterDate, afterMeanTimeValue])
 
 const series = [
   {
@@ -63,21 +77,25 @@ const series = [
     zIndex: 10,
   },
   {
-    data: projectedSeries,
+    name: 'Preticted Accuracy',
+    data: projectedAccuracy,
   },
   {
-    data: beforeSeries,
+    name: 'Mean time',
+    data: meanTime,
+  },
+  {
+    name: 'Preticted mean time',
+    data: projectedMeanTime,
   },
 ]
 
-const options = ref(
-  getChartOptions(themeStore.isDarkMode, minTimestamp - paddingMs, maxTimestamp + paddingMs),
-)
+const options = ref(getChartOptions(themeStore.isDarkMode, minTimestamp, maxTimestamp + paddingMs))
 
 watch(
   () => themeStore.isDarkMode,
   (isDark) => {
-    options.value = getChartOptions(isDark, minTimestamp - paddingMs, maxTimestamp + paddingMs)
+    options.value = getChartOptions(isDark, minTimestamp, maxTimestamp + paddingMs)
   },
 )
 
@@ -97,10 +115,12 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
     },
     tooltip: {
       marker: {
-        fillColors: isDark ? ['#fbbf24'] : ['#ff7b54'],
+        fillColors: isDark
+          ? ['#fbbf24', '#fbbf24', '#67C090', '#67C090']
+          : ['#ce4257', '#ce4257', '#26667F', '#26667F'],
       },
       y: {
-        formatter: (val: number) => val.toFixed(2) + ' % ', // format y value, e.g., 2 decimals
+        formatter: (val: number) => val.toFixed(2),
       },
     },
     dataLabels: {
@@ -112,12 +132,16 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
     stroke: {
       curve: 'smooth',
       width: 2,
-      dashArray: [0, 5, 5],
-      colors: isDark ? ['#fbbf24', '#fbbf24', '#fbbf24'] : ['#ff7b54', '#ff7b54', '#ff7b54'],
+      dashArray: [0, 5, 0, 5],
+      colors: isDark
+        ? ['#fbbf24', '#fbbf24', '#67C090', '#67C090']
+        : ['#ce4257', '#ce4257', '#26667F', '#26667F'],
     },
     markers: {
-      size: [5, 0, 0],
-      colors: isDark ? '#fbbf24' : '#ff7b54',
+      size: [5, 0, 5, 0],
+      colors: isDark
+        ? ['#fbbf24', '#fbbf24', '#67C090', '#67C090']
+        : ['#ce4257', '#ce4257', '#26667F', '#26667F'],
       strokeWidth: 0,
     },
     xaxis: {
@@ -142,14 +166,59 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
         text: 'Date',
       },
     },
-    yaxis: {
-      min: 0,
-      max: 100,
-      decimalsInFloat: 0,
-      title: {
-        text: 'Précision',
+    yaxis: [
+      {
+        seriesName: 'Accuracy',
+        min: 0,
+        max: 100,
+        decimalsInFloat: 0,
+        labels: {
+          style: {
+            colors: isDark ? '#fbbf24' : '#ce4257',
+          },
+        },
+        title: {
+          text: 'Précision',
+          style: {
+            color: isDark ? '#fbbf24' : '#ce4257',
+            fontSize: '20px',
+            fontWeight: 'bold',
+          },
+        },
       },
-    },
+      {
+        seriesName: 'Preticted Accuracy',
+        min: 0,
+        max: 100,
+        show: false,
+      },
+      {
+        opposite: true,
+        min: 0,
+        max: maxMeanTime + 1,
+        seriesName: 'Mean time',
+        decimalsInFloat: 0,
+        title: {
+          text: 'Temps de réponse moyen',
+          style: {
+            color: isDark ? '#67C090' : '#26667F',
+            fontSize: '20px',
+            fontWeight: 'bold',
+          },
+        },
+        labels: {
+          style: {
+            colors: isDark ? '#67C090' : '#26667F',
+          },
+        },
+      },
+      {
+        seriesName: 'Preticted mean time',
+        min: 0,
+        max: maxMeanTime + 1,
+        show: false,
+      },
+    ],
   }
 }
 </script>
@@ -176,7 +245,7 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
 }
 
 .card {
-  padding: 5vw 2vw;
+  padding: 5vw 2rem;
 }
 </style>
 
