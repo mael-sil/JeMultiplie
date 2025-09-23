@@ -35,7 +35,7 @@ for (const [timestamp, accuracies] of accuracyMap) {
 
 accuracy.sort((a, b) => a[0].getTime() - b[0].getTime())
 
-const paddingMs = 36 * 60 * 60 * 1000 // 1 jour et demi en ms
+const paddingMs = 2 * 60 * 60 * 1000 // 1 jour et demi en ms
 const timestamps = accuracy.map(([date]) => date.getTime())
 const minTimestamp = Math.min(...timestamps)
 const maxTimestamp = Math.max(...timestamps)
@@ -169,6 +169,18 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
 </template>
 
 <style lang="css" scoped>
+#chart-container {
+  width: 90vw;
+  height: 30vw;
+  min-height: 200px;
+}
+
+.card {
+  padding: 5vw 2vw;
+}
+</style>
+
+<style>
 .apexcharts-tooltip,
 .apexcharts-tooltip.apexcharts-theme-light,
 .apexcharts-tooltip .apexcharts-tooltip-title,
@@ -186,15 +198,5 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
   border: none;
   background: rgba(0, 0, 0, 0.96) !important;
   color: #ffffff !important;
-}
-
-#chart-container {
-  width: 90vw;
-  height: 30vw;
-  min-height: 200px;
-}
-
-.card {
-  padding: 5vw 2vw;
 }
 </style>
