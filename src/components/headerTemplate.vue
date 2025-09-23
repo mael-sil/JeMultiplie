@@ -1,30 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useThemeStore } from '@/stores/theme'
+import { onMounted } from 'vue'
 
-const whiteMode = ref(false)
-document.body.classList.add('dark')
+const themeStore = useThemeStore()
 
-const savedMode = localStorage.getItem('whiteMode')
-
-if (savedMode) {
-  whiteMode.value = savedMode === 'true'
-  if (whiteMode.value == false) {
-    document.body.classList.add('dark')
-  }
+function changeTheme() {
+  themeStore.toggleTheme()
 }
-
-function listenWhite() {
-  whiteMode.value = false
-  document.body.classList.add('dark')
-
-  localStorage.setItem('whiteMode', 'false')
-}
-
-function listenDark() {
-  whiteMode.value = true
-  document.body.classList.remove('dark')
-  localStorage.setItem('whiteMode', 'true')
-}
+onMounted(() => {
+  // Initialiser le thème depuis le store
+  themeStore.initTheme()
+})
 </script>
 
 <template>
@@ -39,10 +25,10 @@ function listenDark() {
     <router-link to="/game"><button>Jouer</button></router-link>
     <!-- Hide statistique page for now as it is not finished -->
     <router-link to="/stats" style="display: none"><button>Statistique</button></router-link>
-    <button class="dark-mode-button" v-if="whiteMode" @click="listenWhite">
+    <button class="dark-mode-button" v-if="themeStore.isDarkMode" @click="changeTheme">
       <font-awesome-icon :icon="['fas', 'moon']" />
     </button>
-    <button class="dark-mode-button" v-else @click="listenDark">
+    <button class="dark-mode-button" v-else @click="changeTheme">
       <font-awesome-icon :icon="['fas', 'sun']" />
     </button>
   </div>

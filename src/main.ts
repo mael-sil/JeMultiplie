@@ -8,15 +8,19 @@ import VueApexCharts from 'vue3-apexcharts'
 
 import { faMoon, faCalculator, faSun } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { createPinia } from 'pinia'
 
 library.add(faMoon)
 library.add(faCalculator)
 library.add(faSun)
+
+const pinia = createPinia()
 
 const app = createApp(App)
 
 app.use(router)
 app.use(VueApexCharts)
 app.component('font-awesome-icon', FontAwesomeIcon)
+app.use(pinia)
 
 app.mount('#app')
