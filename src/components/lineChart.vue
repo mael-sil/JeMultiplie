@@ -168,7 +168,7 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
   </div>
 </template>
 
-<style lang="css">
+<style lang="css" scoped>
 .apexcharts-tooltip,
 .apexcharts-tooltip.apexcharts-theme-light,
 .apexcharts-tooltip .apexcharts-tooltip-title,
