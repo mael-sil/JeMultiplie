@@ -38,31 +38,22 @@ https://mael-sil.github.io/JeMultiplie/
 ## Screenshot
 ### Home
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/2f3a59b7-c8db-4021-bd46-6ebc27f301c3" width="45%" />
-  <img src="https://github.com/user-attachments/assets/1d3cfcdb-b854-4a02-b6cf-eddf91b35e8b"  width="45%" />
+ <img width="2502" height="1354" alt="Screenshot 2025-09-24 at 23-25-50 Vite App" src="https://github.com/user-attachments/assets/8bbc464e-c8c8-4fa4-b67c-e56f35bee8ca" />
+
 </p>
 
 ### Game
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/cb293c4f-6e3e-4348-838f-34ef46fc3481"  width="45%" />
-  <img src="https://github.com/user-attachments/assets/f9cd5ce8-7a00-46fd-8df9-8adb961fe4be" width="45%" />
+ <img width="2502" height="1354" alt="Screenshot 2025-09-24 at 23-25-55 Vite App" src="https://github.com/user-attachments/assets/c9e486de-6091-4c1b-ae29-4d11346ff4f3" />
 </p>
 
 ### Stat
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/dd7a90cd-deb5-4574-9fee-18e2a51c442e" width="45%" />
-  <img src="https://github.com/user-attachments/assets/0b1648b6-3839-4304-9ff5-718a8f5aa759" width="45%" />
+ <img width="2502" height="1354" alt="Screenshot 2025-09-24 at 23-26-36 Vite App" src="https://github.com/user-attachments/assets/51bcec4e-e496-480c-9db9-bee8e5d5cfad" />
 </p>
 
 ## Prochaine étape 
-- Amélioration du front avec un meilleure page d'acceuil et une page de dashboard avec les statistique des session d'entrainement.
 - Ajout d'un backend pour stocker les résultats des utilisateurs dans une base de données avec un systéme d'utilisateur et d'authentification.
 - Ajout de fonctionnalité: Mode "temps" avec timer limité et Mode "course" avec nombre de question limité à résoudre le plus rapidement possible
 
-### Maquette Figma du nouveau front
-<p align="center">
-<img width="80%" alt="JeMultiplie_home_figma" src="https://github.com/user-attachments/assets/931238ce-0d63-47ed-bc4e-84909751b111" />
-<img width="80%" alt="JeMultiplie_stats_figma" src="https://github.com/user-attachments/assets/d45a1eac-6199-4b16-950f-4c3f0127f9ff" />
-<img width="80%" alt="JeMultiplie_auth_figma" src="https://github.com/user-attachments/assets/cc9304e6-10ee-4058-aac2-073eede82b83" />
-</p>
 
