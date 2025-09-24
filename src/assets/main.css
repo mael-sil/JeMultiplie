@@ -1,9 +1,11 @@
 :root {
   --text-accent-one: #750075;
+  --text-accent-two: #ff7b54;
 }
 
 .dark {
   --text-accent-one: #f9cdf9;
+  --text-accent-two: #fbbf24;
 }
 
 * {
