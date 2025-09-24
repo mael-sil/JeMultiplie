@@ -84,6 +84,10 @@ const series = [
     name: 'Mean time',
     data: meanTime,
   },
+  {
+    name: 'Preticted mean time',
+    data: projectedMeanTime,
+  },
 ]
 
 const options = ref(getChartOptions(themeStore.isDarkMode, minTimestamp, maxTimestamp + paddingMs))
