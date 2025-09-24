@@ -2,26 +2,30 @@
 import buttonMain from './basic/buttonMain.vue'
 import CardInfo from './basic/cardInfo.vue'
 import type { CardInfoContent } from './model/CardInfoContent'
+import type { MainStat } from './model/mainStat'
 
-// TODO: à completer avec les vraie données
+const props = defineProps<{
+  stat: MainStat
+}>()
+
 const cardInfoContentTab: CardInfoContent[] = [
   {
-    title: '1014',
+    title: props.stat.totalOperation.toString(),
     text: 'Calcul total',
     img: 'lightning-symbol.svg',
   },
   {
-    title: '89%',
+    title: props.stat.meanAccuracy.toFixed(2) + ' %',
     text: 'Précision',
     img: 'bullseye-symbol.svg',
   },
   {
-    title: '5.5 seconde',
+    title: props.stat.meanTime.toFixed(2) + ' sec',
     text: 'Temps de réponse moyen',
     img: 'time-symbol.svg',
   },
   {
-    title: '5',
+    title: props.stat.streak.toString(),
     text: 'Jours consécutif',
     img: 'fire-symbol.svg',
   },
