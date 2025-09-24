@@ -1,30 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useThemeStore } from '@/stores/theme'
+import { onMounted, ref } from 'vue'
+import DropMenu from './dropMenu.vue'
 
-const whiteMode = ref(false)
-document.body.classList.add('dark')
+const themeStore = useThemeStore()
 
-const savedMode = localStorage.getItem('whiteMode')
-
-if (savedMode) {
-  whiteMode.value = savedMode === 'true'
-  if (whiteMode.value == false) {
-    document.body.classList.add('dark')
-  }
+function changeTheme() {
+  themeStore.toggleTheme()
 }
+onMounted(() => {
+  // Initialiser le thème depuis le store
+  themeStore.initTheme()
+})
 
-function listenWhite() {
-  whiteMode.value = false
-  document.body.classList.add('dark')
-
-  localStorage.setItem('whiteMode', 'false')
-}
-
-function listenDark() {
-  whiteMode.value = true
-  document.body.classList.remove('dark')
-  localStorage.setItem('whiteMode', 'true')
-}
+const isMenuOpen = ref(false)
 </script>
 
 <template>
@@ -36,21 +25,28 @@ function listenDark() {
   </div>
 
   <div class="right">
-    <router-link to="/game"><button>Jouer</button></router-link>
-    <!-- Hide statistique page for now as it is not finished -->
-    <router-link to="/stats" style="display: none"><button>Statistique</button></router-link>
-    <button class="dark-mode-button" v-if="whiteMode" @click="listenWhite">
+    <button class="menu-button" @click="isMenuOpen = true">
+      <font-awesome-icon :icon="['fas', 'bars']" />
+    </button>
+    <router-link to="/game" class="link-button"><button>Jouer</button></router-link>
+    <router-link to="/stats" class="link-button"><button>Statistique</button></router-link>
+    <button class="dark-mode-button" v-if="themeStore.isDarkMode" @click="changeTheme">
       <font-awesome-icon :icon="['fas', 'moon']" />
     </button>
-    <button class="dark-mode-button" v-else @click="listenDark">
+    <button class="dark-mode-button" v-else @click="changeTheme">
       <font-awesome-icon :icon="['fas', 'sun']" />
     </button>
   </div>
+
+  <DropMenu class="drop-menu" v-show="isMenuOpen" @closeMenu="isMenuOpen = false" />
 </template>
 
 <style scoped>
+@import '@/assets/button.css';
+
 .left,
-.right {
+.right,
+.link-button-container {
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -67,32 +63,16 @@ function listenDark() {
   height: 26px;
 }
 
-button {
-  background: rgb(0, 0, 0, 0.08);
-  backdrop-filter: blur(10px);
-  border: 0.14rem solid rgb(0, 0, 0, 0);
-  border-radius: 40px;
-  padding: 0.5rem 1rem;
+@media (max-width: 800px) {
+  .link-button {
+    display: none;
+  }
 }
 
-.dark button {
-  color: white;
-  background: rgb(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-}
-
-.dark-mode-button {
-  width: 2.25rem;
-  height: 2.25rem;
-  padding: 0;
-  border-radius: 50%;
-}
-
-button:hover {
-  border: 0.1rem solid #1a1a2e !important;
-}
-
-.dark button:hover {
-  border-color: #f3c4d8 !important;
+@media (min-width: 800px) {
+  .menu-button,
+  .drop-menu {
+    display: none;
+  }
 }
 </style>

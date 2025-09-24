@@ -1,0 +1,41 @@
+button {
+  width: 100%;
+}
+
+button {
+  background: rgb(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  border: 0.14rem solid rgb(0, 0, 0, 0);
+  border-radius: 40px;
+  padding: 0.5rem 1rem;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-right: 0.5rem;
+  padding-left: 1rem;
+}
+
+.dark button {
+  color: white;
+  background: rgb(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.dark-mode-button,
+.menu-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 50%;
+}
+
+button:hover {
+  border: 0.1rem solid #1a1a2e !important;
+}
+
+.dark button:hover {
+  border-color: #f3c4d8 !important;
+}

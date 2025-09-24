@@ -1,146 +1,83 @@
 <script setup lang="ts">
-import resultRowTemplate from '@/components/resultRowTemplate.vue'
-import resultTopRow from '@/components/resultTopRow.vue'
 import { getSave } from '@/composables/save'
 import type { Result } from '@/models/result'
-import { computed, ref } from 'vue'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { useRouter } from 'vue-router'
-import { dateFormating } from '@/composables/date'
-import opHeatmap from '@/components/opHeatmap.vue'
+import { ref } from 'vue'
+import LineChart from '@/components/lineChart.vue'
+import StatOverview from '@/components/statOverview.vue'
+import type { MainStat } from '@/components/model/mainStat'
 
 // Rename component to satisfy multi-word rule
 defineOptions({
   name: 'StatsPage',
 })
 
-const resultHistory = ref<Result[]>(getSave())
+const getStreak = (resultHistory: Result[]) => {
+  const uniqueDates = new Map()
 
-const router = useRouter()
+  for (const elt of resultHistory.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  )) {
+    const date = new Date(elt.date).toISOString().split('T')[0]
 
-library.add(faXmark)
+    if (!uniqueDates.has(date)) {
+      uniqueDates.set(date, [])
+    }
+  }
 
-function listenQuit() {
-  router.push('/')
+  let streak = 0
+  let currentCheckDate = new Date()
+  let currentCheckDateISO = currentCheckDate.toISOString().split('T')[0]
+
+  for (const elt of uniqueDates) {
+    console.log(elt[0])
+    console.log(currentCheckDateISO)
+    if (elt[0] === currentCheckDateISO) {
+      streak++
+    } else {
+      break
+    }
+
+    currentCheckDate.setDate(currentCheckDate.getDate() - 1)
+    currentCheckDateISO = currentCheckDate.toISOString().split('T')[0]
+  }
+
+  return streak
 }
 
-const selected = ref(resultHistory.value[resultHistory.value.length - 1])
+const resultHistory = ref<Result[]>(getSave())
 
-const dateSelected = computed(() => {
-  if (!selected.value) return ''
-  return dateFormating(new Date(selected.value.date))
-})
+const sumAccuracy = resultHistory.value.reduce(
+  (accumulator, currentValue) => accumulator + currentValue.accuracy,
+  0,
+)
 
-function listenSelected(result: Result) {
-  selected.value = result
+const meanAccuracy = sumAccuracy / resultHistory.value.length
+
+const sumTime = resultHistory.value.reduce(
+  (accumulator, currentValue) => accumulator + currentValue.meanTime,
+  0,
+)
+
+const meanTime = sumTime / resultHistory.value.length
+
+const sumOperation = resultHistory.value.reduce(
+  (accumulator, currentValue) => accumulator + currentValue.totalAttempts,
+  0,
+)
+
+const statGlobal: MainStat = {
+  totalOperation: sumOperation,
+  meanAccuracy: meanAccuracy,
+  meanTime: meanTime,
+  streak: getStreak(resultHistory.value),
 }
 </script>
 <template>
   <div id="stat" v-if="resultHistory.length !== 0">
-    <div title="Fermer" @click="listenQuit" id="cross">
-      <font-awesome-icon :icon="['fas', 'xmark']" size="2x" />
-    </div>
-
-    <div id="resultTab">
-      <h2>Historique</h2>
-      <div id="tab">
-        <resultTopRow />
-        <resultRowTemplate
-          v-for="(elt, index) in [...resultHistory].reverse()"
-          :key="index"
-          :result="elt"
-          :selected="elt === selected"
-          @is-selected="listenSelected"
-        />
-      </div>
-    </div>
-
-    <div id="statByOp">
-      <h2>Pourcentage de réussite par operation</h2>
-      <h3>Pour la session du {{ dateSelected }}</h3>
-      <opHeatmap :result="selected" />
-    </div>
+    <StatOverview :stat="statGlobal" />
+    <LineChart :result="resultHistory" />
   </div>
   <div v-else>
     <p>Pas de stat disponible</p>
   </div>
 </template>
-
-<style>
-#tab {
-  max-height: calc(5 * 3rem + 4rem);
-  overflow-y: auto;
-  border: 1px solid lightgrey;
-}
-
-#resultTab h2 {
-  grid-column: span 5;
-  text-align: center;
-}
-
-#statByOp h2,
-#statByOp h3 {
-  grid-column: span 4;
-  text-align: center;
-}
-
-#resultTab {
-  display: flex;
-  flex-direction: column;
-
-  align-items: stretch;
-  justify-items: stretch;
-}
-
-#resultTab p,
-#statByOp > div {
-  margin: 0;
-  padding: 0.5rem 0rem;
-
-  text-align: center;
-}
-
-#resultTab p {
-  border-right: 0.12rem solid rgb(146, 90, 197);
-}
-
-#resultTab p:nth-child(5n) {
-  border-right: none;
-}
-
-#resultTab div:last-child {
-  border-bottom: none;
-}
-
-#resultTab div {
-  border-bottom: 0.12rem solid rgb(146, 90, 197);
-}
-
-#resultTab p {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#resultTab .resultTopRow p {
-  padding: 0.5rem 0rem;
-}
-
-#cross {
-  align-self: end;
-  margin-bottom: 1rem;
-}
-
-#statByOp {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0rem 1rem;
-}
-
-#stat {
-  margin: 1rem 1rem;
-}
-</style>

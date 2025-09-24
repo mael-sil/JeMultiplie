@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import buttonMain from '@/components/basic/buttonMain.vue'
+import CardInfo from './basic/cardInfo.vue'
+import type { CardInfoContent } from './model/CardInfoContent'
 
 const number1 = ref<number>(Math.floor(Math.random() * 7 + 2))
 const number2 = ref<number>(Math.floor(Math.random() * 7 + 2))
@@ -10,6 +13,19 @@ setInterval(() => {
   number2.value = Math.floor(Math.random() * 7 + 2)
   result.value = number1.value * number2.value
 }, 1000)
+
+const cardInfoContentTab: CardInfoContent[] = [
+  {
+    title: 'Entraînement Intelligent',
+    text: 'Système de révision des difficulté',
+    img: 'bullseye-symbol.svg',
+  },
+  {
+    title: 'Statistique détaillé',
+    text: 'Analysez votre progression',
+    img: 'chart-symbol.svg',
+  },
+]
 </script>
 
 <template>
@@ -23,16 +39,7 @@ setInterval(() => {
         <p>{{ result }}</p>
       </div>
       <div class="bottom">
-        <div class="card card-info">
-          <img src="/bullseye-symbol.svg" />
-          <h3>Entraînement Intelligent</h3>
-          <p>Système de révision des difficulté</p>
-        </div>
-        <div class="card card-info">
-          <img src="/chart-symbol.svg" />
-          <h3>Statistique détaillé</h3>
-          <p>Analysez votre progression</p>
-        </div>
+        <CardInfo v-for="value in cardInfoContentTab" :content="value" />
       </div>
     </div>
     <div class="right">
@@ -40,7 +47,9 @@ setInterval(() => {
       <p>
         Transformez votre cerveau en calculatrice ultra-rapide avec notre entraînement intélligent
       </p>
-      <router-link to="/game"><button>Lancer l'entraînement</button></router-link>
+      <router-link to="/game">
+        <buttonMain class="button-main">Lancez l'entrainement</buttonMain>
+      </router-link>
     </div>
   </div>
 </template>
@@ -104,30 +113,16 @@ img {
   flex-direction: column;
 }
 
-.right button {
-  margin-top: 2rem;
-  font-size: 1.5rem;
-  padding: 0.5rem 2rem;
-  border-radius: 40px;
-  background: rgb(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: 0.1rem solid rgba(255, 255, 255, 0.5);
-}
-
-.dark .right button {
-  color: white;
-}
-
 #hero-title :first-child {
   font-size: 3rem;
 }
 
-.dark #hero-title :nth-child(2) {
-  color: #fbbf24;
+#hero-title :nth-child(2) {
+  color: var(--text-accent-two);
 }
 
-#hero-title :nth-child(2) {
-  color: #ff7b54;
+.button-main {
+  margin-top: 2rem;
 }
 
 @media (max-width: 860px) {
