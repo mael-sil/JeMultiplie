@@ -84,10 +84,6 @@ const series = [
     name: 'Mean time',
     data: meanTime,
   },
-  {
-    name: 'Preticted mean time',
-    data: projectedMeanTime,
-  },
 ]
 
 const options = ref(getChartOptions(themeStore.isDarkMode, minTimestamp, maxTimestamp + paddingMs))
@@ -109,6 +105,15 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
         enabled: false,
       },
       foreColor: textColor,
+      toolbar: {
+        show: false,
+      },
+      padding: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+      },
     },
     grid: {
       borderColor: isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
@@ -181,28 +186,26 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
           text: 'Précision',
           style: {
             color: isDark ? '#fbbf24' : '#ce4257',
-            fontSize: '20px',
+            fontSize: '12px',
             fontWeight: 'bold',
           },
         },
       },
       {
-        seriesName: 'Preticted Accuracy',
-        min: 0,
-        max: 100,
+        seriesName: 'Accuracy',
         show: false,
       },
       {
         opposite: true,
         min: 0,
-        max: maxMeanTime + 1,
+        max: Math.floor(maxMeanTime + 1),
+        decimalsInFloat: 2,
         seriesName: 'Mean time',
-        decimalsInFloat: 0,
         title: {
           text: 'Temps de réponse moyen',
           style: {
             color: isDark ? '#67C090' : '#26667F',
-            fontSize: '20px',
+            fontSize: '12px',
             fontWeight: 'bold',
           },
         },
@@ -213,9 +216,7 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
         },
       },
       {
-        seriesName: 'Preticted mean time',
-        min: 0,
-        max: maxMeanTime + 1,
+        seriesName: 'Mean time',
         show: false,
       },
     ],
@@ -239,13 +240,20 @@ function getChartOptions(isDark: boolean, min?: number, max?: number) {
 
 <style lang="css" scoped>
 #chart-container {
-  width: 90vw;
-  height: 30vw;
+  width: 100%;
+  height: 400px;
   min-height: 200px;
 }
 
 .card {
-  padding: 5vw 2rem;
+  width: 80vw;
+}
+
+@media (max-width: 800px) {
+  .card {
+    padding: 0;
+    width: 90vw;
+  }
 }
 </style>
 

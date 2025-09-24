@@ -45,10 +45,12 @@ const cardInfoContentTab: CardInfoContent[] = [
 h2 {
   margin-bottom: 0.5rem;
   color: var(--text-accent-two);
+  text-align: center;
 }
 
 p {
   margin-top: 0rem;
+  text-align: center;
 }
 
 .button-main {
@@ -60,5 +62,11 @@ p {
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
   padding-top: 2rem;
+}
+
+@media (max-width: 1182px) {
+  .card-info-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
